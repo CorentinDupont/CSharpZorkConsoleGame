@@ -1,90 +1,92 @@
-﻿DROP TABLE IF EXISTS [Players]
+﻿DECLARE @dropAllConstraints NVARCHAR(MAX) = N'';
+
+SELECT @dropAllConstraints  += N'
+ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id))
+    + '.' + QUOTENAME(OBJECT_NAME(parent_object_id)) + 
+    ' DROP CONSTRAINT ' + QUOTENAME(name) + ';'
+FROM sys.foreign_keys;
+EXEC sp_executesql @dropAllConstraints 
+
+DROP TABLE IF EXISTS [Objects]
+DROP TABLE IF EXISTS [Weapons]
+DROP TABLE IF EXISTS [Players]
 DROP TABLE IF EXISTS [Cells]
 DROP TABLE IF EXISTS [WeaponsType]
-DROP TABLE IF EXISTS [Weapons]
-DROP TABLE IF EXISTS [Objects]
 DROP TABLE IF EXISTS [ObjectsType]
 DROP TABLE IF EXISTS [Monsters]
 
 CREATE TABLE [Players] (
-  [Id] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
   [Name] nvarchar(255) NOT NULL,
   [Exp] int NOT NULL,
   [Hp] int NOT NULL,
   [MaxHp] int NOT NULL,
-  [CurrentCellId] int NOT NULL,
-  [WeaponsId] int NOT NULL,
-  [ObjectsId] int NOT NULL,
-  CONSTRAINT PkPlayers PRIMARY KEY ([Id])
+  [CurrentCellId] int NOT NULL
 )
 GO
 
 CREATE TABLE [Cells] (
-  [Id] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
   [PosX] int NOT NULL,
   [PosY] int NOT NULL,
   [CanMoveTo] bit NOT NULL,
   [MonsterRate] int NOT NULL,
   [ItemRate] int NOT NULL,
-  [Description] nvarchar(255) NOT NULL,
-  CONSTRAINT PkCells PRIMARY KEY ([Id])
+  [Description] nvarchar(255) NOT NULL
 )
 GO
 
 CREATE TABLE [WeaponsType] (
-  [Id] int NOT NULL,
-  [Dammage] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
+  [Damage] int NOT NULL,
   [MissRate] int NOT NULL,
-  [Name] nvarchar(255) NOT NULL,
-  CONSTRAINT PkWeaponsType PRIMARY KEY ([Id])
+  [Name] nvarchar(255) NOT NULL
 )
 GO
 
 CREATE TABLE [Weapons] (
-  [Id] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
   [PlayerId] int NOT NULL,
-  CONSTRAINT PkWeapons PRIMARY KEY ([Id])
+  [WeaponTypeId] int NOT NULL
 )
 GO
 
 CREATE TABLE [ObjectsType] (
-  [Id] int NOT NULL,
-  [Dammage] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
+  [Damage] int NOT NULL,
   [Heal] int NOT NULL,
   [MissRate] int NOT NULL,
-  [Name] nvarchar(255) NOT NULL,
-  CONSTRAINT PkObjectsType PRIMARY KEY ([Id])
+  [Name] nvarchar(255) NOT NULL
 )
 GO
 
 CREATE TABLE [Objects] (
-  [Id] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
   [PlayerId] int NOT NULL,
-  CONSTRAINT PkObjects PRIMARY KEY ([Id])
+  [ObjectTypeId] int NOT NULL
 )
 GO
 
 CREATE TABLE [Monsters] (
-  [Id] int NOT NULL,
+  [Id] int PRIMARY KEY NOT NULL,
   [Name] nvarchar(255) NOT NULL,
-  [Dammage] int NOT NULL,
+  [Damage] int NOT NULL,
   [MissRate] int NOT NULL,
-  [Hp] int NOT NULL,
-  CONSTRAINT PkMonsters PRIMARY KEY ([Id])
+  [Hp] int NOT NULL
 )
 GO
 
 ALTER TABLE [Players] ADD FOREIGN KEY ([CurrentCellId]) REFERENCES [Cells] ([Id])
 GO
 
-ALTER TABLE [Players] ADD FOREIGN KEY ([WeaponsId]) REFERENCES [Weapons] ([Id])
+ALTER TABLE [Weapons] ADD FOREIGN KEY ([WeaponTypeId]) REFERENCES [WeaponsType] ([Id])
 GO
 
-ALTER TABLE [Players] ADD FOREIGN KEY ([ObjectsId]) REFERENCES [Objects] ([Id])
+ALTER TABLE [Weapons] ADD FOREIGN KEY ([PlayerId]) REFERENCES [Players] ([Id])
 GO
 
-ALTER TABLE [WeaponsType] ADD FOREIGN KEY ([Id]) REFERENCES [Weapons] ([Id])
+ALTER TABLE [Objects] ADD FOREIGN KEY ([ObjectTypeId]) REFERENCES [ObjectsType] ([Id])
 GO
 
-ALTER TABLE [Objects] ADD FOREIGN KEY ([Id]) REFERENCES [ObjectsType] ([Id])
+ALTER TABLE [Objects] ADD FOREIGN KEY ([PlayerId]) REFERENCES [Players] ([Id])
 GO
