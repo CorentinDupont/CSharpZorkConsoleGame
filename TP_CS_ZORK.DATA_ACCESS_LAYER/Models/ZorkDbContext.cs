@@ -42,14 +42,18 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Description).HasMaxLength(255);
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Monster>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Object>(entity =>
@@ -60,7 +64,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .WithOne(p => p.Object)
                     .HasForeignKey<Object>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Objects__Id__123EB7A3");
+                    .HasConstraintName("FK__Objects__Id__45BE5BA9");
             });
 
             modelBuilder.Entity<ObjectsType>(entity =>
@@ -69,29 +73,36 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Player>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.HasOne(d => d.CurrentCell)
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.CurrentCellId)
-                    .HasConstraintName("FK__Players__Current__0E6E26BF");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Players__Current__41EDCAC5");
 
                 entity.HasOne(d => d.Objects)
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.ObjectsId)
-                    .HasConstraintName("FK__Players__Objects__10566F31");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Players__Objects__43D61337");
 
                 entity.HasOne(d => d.Weapons)
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.WeaponsId)
-                    .HasConstraintName("FK__Players__Weapons__0F624AF8");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Players__Weapons__42E1EEFE");
             });
 
             modelBuilder.Entity<Weapon>(entity =>
@@ -105,13 +116,15 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.WeaponsType)
                     .HasForeignKey<WeaponsType>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__WeaponsType__Id__114A936A");
+                    .HasConstraintName("FK__WeaponsType__Id__44CA3770");
             });
 
             OnModelCreatingPartial(modelBuilder);

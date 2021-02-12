@@ -13,7 +13,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
         }
 
         public int Id { get; set; }
-        public int? PlayerId { get; set; }
+        public int PlayerId { get; set; }
 
         public virtual ObjectsType IdNavigation { get; set; }
         public virtual ICollection<Player> Players { get; set; }

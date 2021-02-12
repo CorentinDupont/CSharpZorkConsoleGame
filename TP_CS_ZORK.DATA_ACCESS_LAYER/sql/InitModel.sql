@@ -2,74 +2,74 @@
 DROP TABLE IF EXISTS [Cells]
 DROP TABLE IF EXISTS [WeaponsType]
 DROP TABLE IF EXISTS [Weapons]
-DROP TABLE IF EXISTS [ObjectsType]
 DROP TABLE IF EXISTS [Objects]
-DROP TABLE IF EXISTS [Monster]
+DROP TABLE IF EXISTS [ObjectsType]
+DROP TABLE IF EXISTS [Monsters]
 
 CREATE TABLE [Players] (
-  [Id] int,
-  [Name] nvarchar(255),
-  [Exp] int,
-  [Hp] int,
-  [MaxHp] int,
-  [CurrentCellId] int,
-  [WeaponsId] int,
-  [ObjectsId] int,
+  [Id] int NOT NULL,
+  [Name] nvarchar(255) NOT NULL,
+  [Exp] int NOT NULL,
+  [Hp] int NOT NULL,
+  [MaxHp] int NOT NULL,
+  [CurrentCellId] int NOT NULL,
+  [WeaponsId] int NOT NULL,
+  [ObjectsId] int NOT NULL,
   CONSTRAINT PkPlayers PRIMARY KEY ([Id])
 )
 GO
 
 CREATE TABLE [Cells] (
-  [Id] int,
-  [PosX] int,
-  [PosY] int,
-  [CanMoveTo] bit,
-  [MonsterRate] int,
-  [ItemRate] int,
-  [Description] nvarchar(255),
+  [Id] int NOT NULL,
+  [PosX] int NOT NULL,
+  [PosY] int NOT NULL,
+  [CanMoveTo] bit NOT NULL,
+  [MonsterRate] int NOT NULL,
+  [ItemRate] int NOT NULL,
+  [Description] nvarchar(255) NOT NULL,
   CONSTRAINT PkCells PRIMARY KEY ([Id])
 )
 GO
 
 CREATE TABLE [WeaponsType] (
-  [Id] int,
-  [Dammage] int,
-  [MissRate] int,
-  [Name] nvarchar(255),
+  [Id] int NOT NULL,
+  [Dammage] int NOT NULL,
+  [MissRate] int NOT NULL,
+  [Name] nvarchar(255) NOT NULL,
   CONSTRAINT PkWeaponsType PRIMARY KEY ([Id])
 )
 GO
 
 CREATE TABLE [Weapons] (
-  [Id] int,
-  [PlayerId] int,
+  [Id] int NOT NULL,
+  [PlayerId] int NOT NULL,
   CONSTRAINT PkWeapons PRIMARY KEY ([Id])
 )
 GO
 
 CREATE TABLE [ObjectsType] (
-  [Id] int,
-  [Dammage] int,
-  [Heal] int,
-  [MissRate] int,
-  [Name] nvarchar(255),
+  [Id] int NOT NULL,
+  [Dammage] int NOT NULL,
+  [Heal] int NOT NULL,
+  [MissRate] int NOT NULL,
+  [Name] nvarchar(255) NOT NULL,
   CONSTRAINT PkObjectsType PRIMARY KEY ([Id])
 )
 GO
 
 CREATE TABLE [Objects] (
-  [Id] int,
-  [PlayerId] int,
+  [Id] int NOT NULL,
+  [PlayerId] int NOT NULL,
   CONSTRAINT PkObjects PRIMARY KEY ([Id])
 )
 GO
 
 CREATE TABLE [Monsters] (
-  [Id] int,
-  [Name] nvarchar(255),
-  [Dammage] int,
-  [MissRate] int,
-  [Hp] int,
+  [Id] int NOT NULL,
+  [Name] nvarchar(255) NOT NULL,
+  [Dammage] int NOT NULL,
+  [MissRate] int NOT NULL,
+  [Hp] int NOT NULL,
   CONSTRAINT PkMonsters PRIMARY KEY ([Id])
 )
 GO
