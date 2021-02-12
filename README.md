@@ -13,3 +13,18 @@
 - conf : ajout/modification de configurations
 
 **Exemple** : feat-cha-menu-management
+
+### Nommage des commits
+
+> [icon] [type]([ nom-fonctionnalité ]): [description]
+
+Types identiques aux noms de branches. Pour les îcones :
+- feat en cours : 🚧
+- feat terminé : ✨
+- refacto : ♻
+- suppression de code : 🔥
+- fix : 🐛
+- conf : 🔧
+- easter egg : 🥚
+
+**Exemple**: ✨feat(menu): finishing menus
