@@ -50,7 +50,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .WithMany(p => p.Cells)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Cells__PlayerId__373B3228");
+                    .HasConstraintName("FK__Cells__PlayerId__5E54FF49");
             });
 
             modelBuilder.Entity<Monster>(entity =>
@@ -70,13 +70,13 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .WithMany(p => p.Objects)
                     .HasForeignKey(d => d.ObjectTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Objects__ObjectT__3A179ED3");
+                    .HasConstraintName("FK__Objects__ObjectT__61316BF4");
 
                 entity.HasOne(d => d.Player)
                     .WithMany(p => p.Objects)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Objects__PlayerI__3B0BC30C");
+                    .HasConstraintName("FK__Objects__PlayerI__6225902D");
             });
 
             modelBuilder.Entity<ObjectsType>(entity =>
@@ -102,7 +102,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.CurrentCellId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Players__Current__36470DEF");
+                    .HasConstraintName("FK__Players__Current__5D60DB10");
             });
 
             modelBuilder.Entity<Weapon>(entity =>
@@ -113,13 +113,13 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .WithMany(p => p.Weapons)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Weapons__PlayerI__39237A9A");
+                    .HasConstraintName("FK__Weapons__PlayerI__603D47BB");
 
                 entity.HasOne(d => d.WeaponType)
                     .WithMany(p => p.Weapons)
                     .HasForeignKey(d => d.WeaponTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Weapons__WeaponT__382F5661");
+                    .HasConstraintName("FK__Weapons__WeaponT__5F492382");
             });
 
             modelBuilder.Entity<WeaponsType>(entity =>
