@@ -9,6 +9,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
     {
         public Player()
         {
+            Cells = new HashSet<Cell>();
             Objects = new HashSet<Object>();
             Weapons = new HashSet<Weapon>();
         }
@@ -21,6 +22,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
         public int CurrentCellId { get; set; }
 
         public virtual Cell CurrentCell { get; set; }
+        public virtual ICollection<Cell> Cells { get; set; }
         public virtual ICollection<Object> Objects { get; set; }
         public virtual ICollection<Weapon> Weapons { get; set; }
     }

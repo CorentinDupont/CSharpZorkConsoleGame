@@ -14,7 +14,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER
         public ZorkDbContext CreateDbContext(string[] args)
         {
             var dbContextBuilder = new DbContextOptionsBuilder<ZorkDbContext>();
-            dbContextBuilder.UseSqlServer("Server=localhost;Database=ZorkDb;Trusted_Connection=True;", opt => opt.MigrationsAssembly("EntityFrameworkDbFirst"));
+            dbContextBuilder.UseSqlServer("Server=localhost;Database=ZorkDb;Trusted_Connection=True;", opt => opt.MigrationsAssembly("TP_CS_ZORK.DATA_ACCESS_LAYER"));
 
             return new (dbContextBuilder.Options);
         }
