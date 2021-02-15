@@ -30,7 +30,6 @@ namespace TP_CS_ZORK.CONSOLE.commandsMenu
             while (!int.TryParse(userChoice, out commandIndex) || commandIndex > commands.Length || userChoice == "0")
             {
                 Console.Clear();
-                Console.WriteLine($"Select number between 0 and {commands.Length} \n");
                 displayCommands(commands);
                 userChoice = Console.ReadLine();
             }
