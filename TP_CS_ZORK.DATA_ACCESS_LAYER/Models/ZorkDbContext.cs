@@ -40,8 +40,6 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 
             modelBuilder.Entity<Cell>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(255);
@@ -50,13 +48,11 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .WithMany(p => p.Cells)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Cells__PlayerId__5E54FF49");
+                    .HasConstraintName("FK__Cells__PlayerId__178D7CA5");
             });
 
             modelBuilder.Entity<Monster>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
@@ -64,26 +60,22 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 
             modelBuilder.Entity<Object>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.ObjectType)
                     .WithMany(p => p.Objects)
                     .HasForeignKey(d => d.ObjectTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Objects__ObjectT__61316BF4");
+                    .HasConstraintName("FK__Objects__ObjectT__1A69E950");
 
                 entity.HasOne(d => d.Player)
                     .WithMany(p => p.Objects)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Objects__PlayerI__6225902D");
+                    .HasConstraintName("FK__Objects__PlayerI__1B5E0D89");
             });
 
             modelBuilder.Entity<ObjectsType>(entity =>
             {
                 entity.ToTable("ObjectsType");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -92,8 +84,6 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 
             modelBuilder.Entity<Player>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
@@ -101,32 +91,27 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                 entity.HasOne(d => d.CurrentCell)
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.CurrentCellId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Players__Current__5D60DB10");
+                    .HasConstraintName("FK__Players__Current__1699586C");
             });
 
             modelBuilder.Entity<Weapon>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Player)
                     .WithMany(p => p.Weapons)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Weapons__PlayerI__603D47BB");
+                    .HasConstraintName("FK__Weapons__PlayerI__1975C517");
 
                 entity.HasOne(d => d.WeaponType)
                     .WithMany(p => p.Weapons)
                     .HasForeignKey(d => d.WeaponTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Weapons__WeaponT__5F492382");
+                    .HasConstraintName("FK__Weapons__WeaponT__1881A0DE");
             });
 
             modelBuilder.Entity<WeaponsType>(entity =>
             {
                 entity.ToTable("WeaponsType");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .IsRequired()

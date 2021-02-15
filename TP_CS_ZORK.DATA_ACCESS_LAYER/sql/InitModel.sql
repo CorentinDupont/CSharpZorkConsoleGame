@@ -26,17 +26,17 @@ DROP TABLE IF EXISTS [Monsters]
 
 
 CREATE TABLE [Players] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [Name] nvarchar(255) NOT NULL,
   [Exp] int NOT NULL,
   [Hp] int NOT NULL,
   [MaxHp] int NOT NULL,
-  [CurrentCellId] int NOT NULL
+  [CurrentCellId] int
 )
 GO
 
 CREATE TABLE [Cells] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [PosX] int NOT NULL,
   [PosY] int NOT NULL,
   [CanMoveTo] bit NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE [Cells] (
 GO
 
 CREATE TABLE [WeaponsType] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [Damage] int NOT NULL,
   [MissRate] int NOT NULL,
   [Name] nvarchar(255) NOT NULL
@@ -56,14 +56,14 @@ CREATE TABLE [WeaponsType] (
 GO
 
 CREATE TABLE [Weapons] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [PlayerId] int NOT NULL,
   [WeaponTypeId] int NOT NULL
 )
 GO
 
 CREATE TABLE [ObjectsType] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [Damage] int NOT NULL,
   [Heal] int NOT NULL,
   [MissRate] int NOT NULL,
@@ -72,14 +72,14 @@ CREATE TABLE [ObjectsType] (
 GO
 
 CREATE TABLE [Objects] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [PlayerId] int NOT NULL,
   [ObjectTypeId] int NOT NULL
 )
 GO
 
 CREATE TABLE [Monsters] (
-  [Id] int PRIMARY KEY NOT NULL,
+  [Id] int PRIMARY KEY IDENTITY(1,1) NOT NULL,
   [Name] nvarchar(255) NOT NULL,
   [Damage] int NOT NULL,
   [MissRate] int NOT NULL,
