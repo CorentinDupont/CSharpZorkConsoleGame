@@ -1,4 +1,5 @@
 ﻿using System;
+using TP_CS_ZORK.CONSOLE.commandsMenu;
 
 namespace TP_CS_ZORK.CONSOLE
 {
@@ -6,7 +7,8 @@ namespace TP_CS_ZORK.CONSOLE
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.display();
         }
     }
 }
