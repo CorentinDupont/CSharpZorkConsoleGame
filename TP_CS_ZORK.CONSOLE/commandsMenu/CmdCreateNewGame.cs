@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.characters;
 using TP_CS_ZORK.CONSOLE.maps;
+using TP_CS_ZORK.CONSOLE.utils;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
@@ -14,11 +15,17 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void Execute(int number)
         {
-            CreatePlayer();
-            CreateMap();
+            Player player = CreatePlayer();
+            Cell[,] map = CreateMap();
+            int widthMap = (int)map.GetLongLength(0);
+            int heightMap = (int)map.GetLongLength(1);
+            Console.WriteLine($"widthMap : {widthMap}" );
+            Console.WriteLine($"heightMap : {heightMap}");
+
+            SpawnPlayer(player, widthMap, heightMap);
         }
 
-        private void CreatePlayer()
+        private Player CreatePlayer() { 
         
             // CREATE PLAYER
             Player player = new Player();
@@ -29,9 +36,11 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             Console.WriteLine($"Welcome to a new world {player.name} !");
             Console.WriteLine("\n\n\n");
+
+            return player;
         }
 
-        private void CreateMap()
+        private Cell[,] CreateMap()
         {
             Random random = new Random();
             int widthMap = random.Next(5, 21);  // creates a number between 5 and 20
@@ -54,7 +63,20 @@ namespace TP_CS_ZORK.CONSOLE.commands
                     map.SetValue(new Cell(i, y), i, y);
                 }
             }
+
+            return map;
             //Console.WriteLine($"Total cells : {map.Length});
+        }
+
+        private void SpawnPlayer(Player player, int widthMap, int heightMap)
+        {
+
+            Random random = new Random();
+            int randomPositionOnWidthAxis = random.Next(0, widthMap + 1);
+            int randomPositionOnHeightAxis = random.Next(0, heightMap + 1);
+
+            //Cell currentCellPlayer = new Cell(randomPositionOnWidthAxis, randomPositionOnHeightAxis, SPAWN);
+            //player.currentCellId = 
         }
     }
 }

@@ -8,8 +8,8 @@ namespace TP_CS_ZORK.CONSOLE.characters
     class Player
     {
         public string name;
-        int hp = 100;
-        Cell currentCell;
-        Cell[] currentMap;
+        public int hp = 100;
+        public int currentCellId;
+        public Cell[] currentMap;
     }
 }
