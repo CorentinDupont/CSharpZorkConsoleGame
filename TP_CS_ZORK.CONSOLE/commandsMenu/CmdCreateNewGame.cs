@@ -17,12 +17,9 @@ namespace TP_CS_ZORK.CONSOLE.commands
         {
             Player player = CreatePlayer();
             Cell[,] map = CreateMap();
-            int widthMap = (int)map.GetLongLength(0);
-            int heightMap = (int)map.GetLongLength(1);
-            Console.WriteLine($"widthMap : {widthMap}" );
-            Console.WriteLine($"heightMap : {heightMap}");
+            DescribeMap(map, player);
 
-            SpawnPlayer(player, widthMap, heightMap);
+
         }
 
         private Player CreatePlayer() { 
@@ -46,9 +43,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
             int widthMap = random.Next(5, 21);  // creates a number between 5 and 20
             int heightMap = random.Next(5, 21);
 
-            //Console.WriteLine(widthMap);
-            //Console.WriteLine(heightMap);
-
             Cell[,] map = new Cell[widthMap, heightMap];
 
             // fill each row
@@ -64,19 +58,42 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 }
             }
 
-            return map;
             //Console.WriteLine($"Total cells : {map.Length});
+
+            return map;
         }
 
-        private void SpawnPlayer(Player player, int widthMap, int heightMap)
+        private void SpawnPlayer(Player player, Cell[,] map)
         {
 
-            Random random = new Random();
-            int randomPositionOnWidthAxis = random.Next(0, widthMap + 1);
-            int randomPositionOnHeightAxis = random.Next(0, heightMap + 1);
+            int widthMap = (int)map.GetLongLength(0); // Get width map
+            int heightMap = (int)map.GetLongLength(1); // Get height map
+            Console.WriteLine($"widthMap : {widthMap}");
+            Console.WriteLine($"heightMap : {heightMap}");
 
-            //Cell currentCellPlayer = new Cell(randomPositionOnWidthAxis, randomPositionOnHeightAxis, SPAWN);
-            //player.currentCellId = 
+
+            Random random = new Random();
+            int randomPositionOnWidthAxis = random.Next(5, widthMap + 1);
+            int randomPositionOnHeightAxis = random.Next(5, heightMap + 1);
+
+            // Create a cell for the player to spawn, and replace the one that is empty
+            Cell currentCellPlayer = (Cell)map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
+            currentCellPlayer.description = Definitions.SPAWN.ToString();
+            currentCellPlayer.posX = randomPositionOnWidthAxis;
+            currentCellPlayer.posY = randomPositionOnHeightAxis;
+
+            map.SetValue(currentCellPlayer, randomPositionOnWidthAxis, randomPositionOnHeightAxis);
+            player.currentCellId = currentCellPlayer.id;
+
+        }
+
+        /*
+         * Create all details on map : spawns, obstacles, monsters...
+         */
+        public void DescribeMap(Cell[,] map, Player player)
+        {
+
+            SpawnPlayer(player, map);
         }
     }
 }

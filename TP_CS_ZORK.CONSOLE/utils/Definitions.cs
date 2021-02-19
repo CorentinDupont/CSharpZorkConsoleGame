@@ -12,4 +12,13 @@ namespace TP_CS_ZORK.CONSOLE.utils
         GRAVEYARD,
         VOLCANO
     }
+
+    //public string getValue(string value)
+    //{
+
+        //GET VALUE
+        //TO STRING
+        //RETURN
+        
+    //}
 }

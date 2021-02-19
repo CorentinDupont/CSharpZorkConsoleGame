@@ -14,10 +14,11 @@ namespace TP_CS_ZORK.CONSOLE.maps
 
         public Cell(int p_posX, int p_posY)
         {
-            posX = p_posX;
+            posX = p_posX; 
             posY = p_posY;
         }
 
+        public int id;
         public string description;
         public int posX;
         public int posY;
