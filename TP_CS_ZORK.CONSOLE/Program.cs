@@ -1,5 +1,5 @@
-﻿using System;
-using TP_CS_ZORK.CONSOLE.commandsMenu;
+﻿using TP_CS_ZORK.CONSOLE.commands;
+using TP_CS_ZORK.CONSOLE.utils;
 
 namespace TP_CS_ZORK.CONSOLE
 {
@@ -7,8 +7,12 @@ namespace TP_CS_ZORK.CONSOLE
     {
         static void Main(string[] args)
         {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.display();
+            Menu menu = new Menu(
+                CommandsEnum.CmdCreateNewGame.ToString(), 
+                CommandsEnum.CmdLoadSavedGame.ToString(), 
+                CommandsEnum.CmdAbout.ToString(), 
+                CommandsEnum.CmdExit.ToString());
+     
         }
     }
 }

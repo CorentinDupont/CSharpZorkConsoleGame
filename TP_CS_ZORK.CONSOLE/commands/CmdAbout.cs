@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TP_CS_ZORK.CONSOLE.commandsMenu;
+using TP_CS_ZORK.CONSOLE.commands;
+using TP_CS_ZORK.CONSOLE.utils;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
@@ -19,12 +20,15 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Console.WriteLine("Lerenard Charly \n");
             Console.WriteLine("\n\n\n");
             
-            Console.WriteLine("Any key to back to the main menu \n");
+            Console.WriteLine("Press any key to back to the main menu \n");
 
             Console.ReadLine();
 
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.display();
+            Menu menu = new Menu(
+                CommandsEnum.CmdCreateNewGame.ToString(),
+                CommandsEnum.CmdLoadSavedGame.ToString(),
+                CommandsEnum.CmdAbout.ToString(),
+                CommandsEnum.CmdExit.ToString());
 
         }
     }

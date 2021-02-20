@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.characters;
 using TP_CS_ZORK.CONSOLE.maps;
 using TP_CS_ZORK.CONSOLE.utils;
+using TP_CS_ZORK.CONSOLE.commands;
+
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
@@ -15,12 +17,21 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void Execute(int number)
         {
+
+            // Setting game
             Player player = CreatePlayer();
             Cell[,] map = CreateMap();
             DescribeMap(map, player);
 
-
+            // Display game
+            Menu menu = new Menu(
+                CommandsEnum.CmdInventory.ToString(),
+                CommandsEnum.CmdStats.ToString(),
+                CommandsEnum.CmdMove.ToString(),
+                CommandsEnum.CmdExit.ToString());
         }
+
+
 
         private Player CreatePlayer() { 
         
@@ -73,12 +84,12 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
 
             Random random = new Random();
-            int randomPositionOnWidthAxis = random.Next(5, widthMap + 1);
-            int randomPositionOnHeightAxis = random.Next(5, heightMap + 1);
+            int randomPositionOnWidthAxis = random.Next(5, widthMap);
+            int randomPositionOnHeightAxis = random.Next(5, heightMap);
 
             // Create a cell for the player to spawn, and replace the one that is empty
             Cell currentCellPlayer = (Cell)map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
-            currentCellPlayer.description = Definitions.SPAWN.ToString();
+            currentCellPlayer.description = CellsEnum.SPAWN.ToString();
             currentCellPlayer.posX = randomPositionOnWidthAxis;
             currentCellPlayer.posY = randomPositionOnHeightAxis;
 

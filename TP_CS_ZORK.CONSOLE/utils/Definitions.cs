@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TP_CS_ZORK.CONSOLE.utils
 {
-    enum Definitions
+    enum CellsEnum
     {
         SPAWN,
         WALL,
@@ -12,13 +12,31 @@ namespace TP_CS_ZORK.CONSOLE.utils
         GRAVEYARD,
         VOLCANO
     }
+    public enum CommandsEnum
+    {
+        CmdAbout,
+        CmdCreateNewGame,
+        CmdLoadSavedGame,
+        CmdExit,
+        CmdInventory,
+        CmdStats,
+        CmdMove
+    }
 
-    //public string getValue(string value)
+    //public static bool GetValue(string value)
     //{
 
-        //GET VALUE
-        //TO STRING
-        //RETURN
-        
+    //    switch (value)
+    //    {
+    //        case "CmdAbout":
+    //            return true;
+    //        default:
+    //            return false;
+    //    }
+       
+        //    GET VALUE
+    //TO STRING
+    //RETURN
+
     //}
 }
