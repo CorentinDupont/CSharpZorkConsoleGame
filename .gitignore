@@ -38,3 +38,4 @@ msbuild.wrn
 .vs
 *.cache
 */obj
+.vs/TP_CS_ZORK/v16/.suo
