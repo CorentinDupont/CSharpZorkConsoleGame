@@ -7,11 +7,12 @@ namespace TP_CS_ZORK.CONSOLE
     {
         static void Main(string[] args)
         {
-            Menu menu = new Menu(
+            new Menu(
                 CommandsEnum.CmdCreateNewGame.ToString(), 
                 CommandsEnum.CmdLoadSavedGame.ToString(), 
                 CommandsEnum.CmdAbout.ToString(), 
-                CommandsEnum.CmdExit.ToString());
+                CommandsEnum.CmdExit.ToString()
+            );
      
         }
     }

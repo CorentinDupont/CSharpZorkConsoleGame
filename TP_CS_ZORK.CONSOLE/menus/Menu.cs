@@ -7,11 +7,11 @@ using TP_CS_ZORK.CONSOLE.utils;
 /*
  * 
  * To create a menu, just make an instance of this class with all the commands you want to display, example :
- *             Menu menu = new Menu(
+ *             new Menu(
  *              CommandsEnum.nameCommand.ToString(),
  *              ...);
  *              
- * The command should exists in CommandsEnum in Deinitions.cs file
+ * The command should exists in the enum CommandsEnum in the Definitions.cs file
  *
  */
 
@@ -32,8 +32,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 {
                     if(command == existingCommand.ToString())
                     {
-                        var test = typeof(ICommand).AssemblyQualifiedName;
-
                         string objectToInstantiate = "TP_CS_ZORK.CONSOLE.commands." + command + ", TP_CS_ZORK.CONSOLE";
                         var objectType = Type.GetType(objectToInstantiate);
                         var instantiatedObject = Activator.CreateInstance(objectType);
@@ -59,8 +57,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
         protected static void ReadInput(List<ICommand> commands)
         {
             var userChoice = string.Empty;
-            var commandIndex = -1;
-
+            int commandIndex;
             while (!int.TryParse(userChoice, out commandIndex) || commandIndex > commands.Count || userChoice == "0")
             {
                 Console.Clear();

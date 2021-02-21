@@ -22,21 +22,4 @@ namespace TP_CS_ZORK.CONSOLE.utils
         CmdStats,
         CmdMove
     }
-
-    //public static bool GetValue(string value)
-    //{
-
-    //    switch (value)
-    //    {
-    //        case "CmdAbout":
-    //            return true;
-    //        default:
-    //            return false;
-    //    }
-       
-        //    GET VALUE
-    //TO STRING
-    //RETURN
-
-    //}
 }

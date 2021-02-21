@@ -24,7 +24,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             DescribeMap(map, player);
 
             // Display game
-            Menu menu = new Menu(
+            new Menu(
                 CommandsEnum.CmdInventory.ToString(),
                 CommandsEnum.CmdStats.ToString(),
                 CommandsEnum.CmdMove.ToString(),

@@ -24,12 +24,12 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             Console.ReadLine();
 
-            Menu menu = new Menu(
+            new Menu(
                 CommandsEnum.CmdCreateNewGame.ToString(),
                 CommandsEnum.CmdLoadSavedGame.ToString(),
                 CommandsEnum.CmdAbout.ToString(),
-                CommandsEnum.CmdExit.ToString());
-
+                CommandsEnum.CmdExit.ToString()
+            );
         }
     }
 }
