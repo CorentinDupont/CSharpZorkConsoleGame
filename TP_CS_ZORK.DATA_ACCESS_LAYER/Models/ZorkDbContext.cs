@@ -17,13 +17,13 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
         {
         }
 
-        public virtual DbSet<Cell> Cells { get; set; }
-        public virtual DbSet<Monster> Monsters { get; set; }
-        public virtual DbSet<Object> Objects { get; set; }
-        public virtual DbSet<ObjectsType> ObjectsTypes { get; set; }
-        public virtual DbSet<Player> Players { get; set; }
-        public virtual DbSet<Weapon> Weapons { get; set; }
-        public virtual DbSet<WeaponsType> WeaponsTypes { get; set; }
+        public DbSet<Cell> Cells { get; set; }
+        public DbSet<Monster> Monsters { get; set; }
+        public DbSet<Object> Objects { get; set; }
+        public DbSet<ObjectsType> ObjectsTypes { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Weapon> Weapons { get; set; }
+        public DbSet<WeaponsType> WeaponsTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

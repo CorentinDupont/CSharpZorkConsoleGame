@@ -10,8 +10,8 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Migrations
 {
     [DbContext(typeof(ZorkDbContext))]
-    [Migration("20210215221006_AddIncrement")]
-    partial class AddIncrement
+    [Migration("20210221220914_AllModels")]
+    partial class AllModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
