@@ -10,7 +10,8 @@ namespace TP_CS_ZORK.CONSOLE.utils
         WALL,
         RIVER,
         GRAVEYARD,
-        VOLCANO
+        VOLCANO,
+        DIRT_ROAD
     }
     public enum CommandsEnum
     {
@@ -21,9 +22,16 @@ namespace TP_CS_ZORK.CONSOLE.utils
         CmdInventory,
         CmdStats,
         CmdMove,
+
         CmdMoveWest,
         CmdMoveEst,
         CmdMoveNorth,
         CmdMoveSouth,
+
+        CmdEscape,
+        CmdHit,
+        CmdUseObject,
+
+        WeaponPunch
     }
 }

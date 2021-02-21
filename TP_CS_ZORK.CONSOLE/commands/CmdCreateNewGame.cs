@@ -87,6 +87,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                     
                     if (random.Next(0, 101) > 20){ // Determine if the cell is walkable
                         newCell.canMoveTo = true;
+                        newCell.description = CellsEnum.DIRT_ROAD.ToString();
                     } else
                     {
                         newCell.canMoveTo = false;

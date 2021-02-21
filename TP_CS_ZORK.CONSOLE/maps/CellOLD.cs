@@ -1,5 +1,7 @@
 ﻿
 
+using TP_CS_ZORK.CONSOLE.characters;
+
 namespace TP_CS_ZORK.CONSOLE.maps
 {
     class CellOLD
@@ -29,5 +31,6 @@ namespace TP_CS_ZORK.CONSOLE.maps
         public int itemRate;
         public bool canMoveTo;
         public int playerId;
+        public Monster currentMonster;
     }
 }

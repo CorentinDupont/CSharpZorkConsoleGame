@@ -20,11 +20,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             Cell currentCellPlayer = player.GetCurrentCell(player.currentCellId);
 
-            //Console.WriteLine($"currentCellPlayer.posX:  {currentCellPlayer.posX}");
-            //Console.WriteLine($"currentCellPlayer.posY:  {currentCellPlayer.posY}");
-            //Console.WriteLine($"currentCellPlayer.id:  {currentCellPlayer.id}");
-            //Console.WriteLine($"currentCellPlayer.description:  {currentCellPlayer.description}");
-
             int newPosition = currentCellPlayer.posX + 1;
 
             // Check if player in on the border
@@ -35,43 +30,64 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 // Check if the next cell is a wall
                 if (estCellPlayer.canMoveTo == true)
                 {
-                    player.currentCellId = estCellPlayer.id;
 
-                    Cell newCellPlayer = player.GetCurrentCell(player.currentCellId);
+                        MenuMove();
 
-                    Console.WriteLine($"newCellPlayer.posX:  {newCellPlayer.posX}");
-                    Console.WriteLine($"newCellPlayer.posY:  {newCellPlayer.posY}");
-                    //Console.WriteLine($"newCellPlayer.id:  {newCellPlayer.id}");
-                    Console.WriteLine($"newCellPlayer.description:  {newCellPlayer.description}");
-                    Console.ReadLine();
-                    new Menu(
-                        CommandsEnum.CmdMoveNorth.ToString(),
-                        CommandsEnum.CmdMoveEst.ToString(),
-                        CommandsEnum.CmdMoveWest.ToString(),
-                        CommandsEnum.CmdMoveSouth.ToString());
+                        Random random = new Random();
+                        int spawnMonster = random.Next(0, 100);  // creates a number between 5 and 20
+                        if (spawnMonster < estCellPlayer.monsterRate)
+                        {
+                            Monster monster = new Monster(estCellPlayer.id); ;
+                            player.GetCurrentCell(player.currentCellId).currentMonster = monster;
+                            Fight(monster, player);
+                        }
+
                 }
                 else
                 {
                     Console.WriteLine($"This case is inaccessible !");
                     Console.ReadLine();
-                    new Menu(
-                        CommandsEnum.CmdMoveNorth.ToString(),
-                        CommandsEnum.CmdMoveEst.ToString(),
-                        CommandsEnum.CmdMoveWest.ToString(),
-                        CommandsEnum.CmdMoveSouth.ToString());
+                    MenuMove();
+
                 }
             } else
             {
 
                 Console.WriteLine($"You are on the limit of the map!");
                 Console.ReadLine();
-                new Menu(
+                MenuMove();
+            }
+        }
+
+        public void MenuMove()
+        {
+            new Menu(
                     CommandsEnum.CmdMoveNorth.ToString(),
                     CommandsEnum.CmdMoveEst.ToString(),
                     CommandsEnum.CmdMoveWest.ToString(),
                     CommandsEnum.CmdMoveSouth.ToString());
-            }
-        
+        }
+
+        public void MovePlayer(Player player, Cell newCell)
+        {
+            player.currentCellId = newCell.id;
+            Console.WriteLine($"newCellPlayer.posX:  {newCell.posX}");
+            Console.WriteLine($"newCellPlayer.posY:  {newCell.posY}");
+            Console.WriteLine($"You are on a :  {newCell.description}");
+            Console.ReadLine();
+        }
+
+        public void Fight(Monster monster, Player player)
+        {
+            Console.WriteLine($"You are attacked by a {monster.name} !");
+            player.hp -= monster.damages;
+            Console.WriteLine($"You take {monster.damages}, you still have {player.hp} !");
+            Console.WriteLine($"What do you want to do ?");
+            
+            new Menu(
+            CommandsEnum.CmdHit.ToString(),
+            CommandsEnum.CmdUseObject.ToString(),
+            CommandsEnum.CmdEscape.ToString());
         }
     }
 }
