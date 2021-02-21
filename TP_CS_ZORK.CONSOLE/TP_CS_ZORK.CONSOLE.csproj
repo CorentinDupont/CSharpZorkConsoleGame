@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TP_CS_ZORK.DATA_ACCESS_LAYER\TP_CS_ZORK.DATA_ACCESS_LAYER.csproj" />
+  </ItemGroup>
 
 </Project>

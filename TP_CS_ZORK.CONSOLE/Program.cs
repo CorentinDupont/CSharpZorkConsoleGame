@@ -9,6 +9,7 @@ namespace TP_CS_ZORK.CONSOLE
         {
             MainMenu mainMenu = new MainMenu();
             mainMenu.display();
+            new Test();
         }
     }
 }
