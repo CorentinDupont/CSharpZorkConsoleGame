@@ -100,5 +100,14 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Console.WriteLine("\n");
 
         }
+
+        public void menuMove()
+        {
+            new Menu(
+            CommandsEnum.CmdMoveNorth.ToString(),
+            CommandsEnum.CmdMoveEst.ToString(),
+            CommandsEnum.CmdMoveWest.ToString(),
+            CommandsEnum.CmdMoveSouth.ToString());
+        }
     }
 }

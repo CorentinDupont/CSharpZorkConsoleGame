@@ -16,9 +16,12 @@ namespace TP_CS_ZORK.CONSOLE.maps
         {
             posX = p_posX; 
             posY = p_posY;
-        }
+            id = p_id;
+            monsterRate = 30;
+            itemRate = 10;
+    }
 
-        public int id;
+    public int id;
         public string description;
         public int posX;
         public int posY;

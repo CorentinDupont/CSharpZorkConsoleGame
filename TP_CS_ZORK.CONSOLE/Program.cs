@@ -11,11 +11,12 @@ namespace TP_CS_ZORK.CONSOLE
             var menu = new Menu(
                 CommandsEnum.CmdCreateNewGame.ToString(), 
                 CommandsEnum.CmdLoadSavedGame.ToString(), 
-                CommandsEnum.CmdAbout.ToString(), 
+                CommandsEnum.CmdAbout.ToString(),
                 CommandsEnum.CmdExit.ToString()
             );
 
             await menu.Activate();
         }
+   
     }
 }

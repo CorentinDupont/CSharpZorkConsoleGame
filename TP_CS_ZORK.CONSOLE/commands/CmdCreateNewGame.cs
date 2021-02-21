@@ -25,6 +25,8 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Player player = await CreatePlayer();
             CellOLD[,] map = CreateMap();
             DescribeMap(map, player);
+            
+            player.currentMap = map;
 
             // Display game
             var menu = new Menu(
@@ -68,20 +70,34 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             CellOLD[,] map = new CellOLD[widthMap, heightMap];
 
+            int idNewCell = 0;
             // fill each row
             for (int i = 0; i < widthMap; i++)
             {
                 // fill each column
                 for (int y = 0; y < heightMap; y++)
                 {
+                    idNewCell++;
                     //Console.WriteLine($"i : {i}");
                     //Console.WriteLine($"y : {y}");
 
                     map.SetValue(new CellOLD(i, y), i, y);
+                    //Console.WriteLine($"idNewCell : {idNewCell}");
+                    Cell newCell = new Cell(i, y, idNewCell);
+                    
+                    if (random.Next(0, 101) > 20){ // Determine if the cell is walkable
+                        newCell.canMoveTo = true;
+                    } else
+                    {
+                        newCell.canMoveTo = false;
+                        newCell.description = CellsEnum.WALL.ToString();
+                    }
+                    
+                    map.SetValue(newCell, i, y); // Set the cell in the map
                 }
             }
 
-            //Console.WriteLine($"Total cells : {map.Length});
+            //Console.WriteLine($"Total cells : {map.Length}");
 
             return map;
         }
@@ -91,13 +107,13 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             int widthMap = (int)map.GetLongLength(0); // Get width map
             int heightMap = (int)map.GetLongLength(1); // Get height map
-            Console.WriteLine($"widthMap : {widthMap}");
-            Console.WriteLine($"heightMap : {heightMap}");
+            //Console.WriteLine($"widthMap : {widthMap}");
+            //Console.WriteLine($"heightMap : {heightMap}");
 
 
             Random random = new Random();
-            int randomPositionOnWidthAxis = random.Next(5, widthMap);
-            int randomPositionOnHeightAxis = random.Next(5, heightMap);
+            int randomPositionOnWidthAxis = random.Next(5, widthMap - 1);
+            int randomPositionOnHeightAxis = random.Next(5, heightMap - 1);
 
             // Create a cell for the player to spawn, and replace the one that is empty
             CellOLD currentCellPlayer = (CellOLD) map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
@@ -107,6 +123,18 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             map.SetValue(currentCellPlayer, randomPositionOnWidthAxis, randomPositionOnHeightAxis);
             // player.currentCellId = currentCellPlayer.id;
+            Cell newCellPlayer = (Cell)map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
+            newCellPlayer.description = CellsEnum.SPAWN.ToString();
+            newCellPlayer.posX = randomPositionOnWidthAxis;
+            newCellPlayer.posY = randomPositionOnHeightAxis;
+
+            Cell oldCell = (Cell)map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
+
+            newCellPlayer.id = oldCell.id;
+            
+            // Replace the old cell in the map
+            map.SetValue(newCellPlayer, randomPositionOnWidthAxis, randomPositionOnHeightAxis);
+            player.currentCellId = newCellPlayer.id;
 
         }
 
@@ -116,6 +144,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
         public void DescribeMap(CellOLD[,] map, Player player)
         {
             SpawnPlayer(player, map);
+            //Spawn...
         }
     }
 }

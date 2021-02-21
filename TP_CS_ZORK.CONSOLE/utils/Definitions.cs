@@ -20,6 +20,10 @@ namespace TP_CS_ZORK.CONSOLE.utils
         CmdExit,
         CmdInventory,
         CmdStats,
-        CmdMove
+        CmdMove,
+        CmdMoveWest,
+        CmdMoveEst,
+        CmdMoveNorth,
+        CmdMoveSouth,
     }
 }
