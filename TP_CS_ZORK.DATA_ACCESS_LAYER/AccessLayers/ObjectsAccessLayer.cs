@@ -3,7 +3,7 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 {
-    class ObjectsAccessLayer : BaseAccessLayer<Cell>
+    public class ObjectsAccessLayer : BaseAccessLayer<Cell>
     {
 
         private static ObjectsAccessLayer instance = null;
