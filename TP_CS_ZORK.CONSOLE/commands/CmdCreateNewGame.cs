@@ -37,7 +37,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
         }
 
 
-
+        // Create the player with a custom pseudo and base stats in DB
         private async Task<Player> CreatePlayer() { 
         
             // CREATE PLAYER

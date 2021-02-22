@@ -13,6 +13,7 @@ using TP_CS_ZORK.CONSOLE.utils;
  *              ...);
  *              
  * The command should exists in the enum CommandsEnum in the Definitions.cs file
+ * A command can be a class that implement ICommand or ICommandAsync, if function of the needs.
  *
  */
 
