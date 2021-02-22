@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.commands;
 using TP_CS_ZORK.CONSOLE.utils;
 
@@ -12,16 +13,21 @@ using TP_CS_ZORK.CONSOLE.utils;
  *              ...);
  *              
  * The command should exists in the enum CommandsEnum in the Definitions.cs file
+ * A command can be a class that implement ICommand or ICommandAsync, if function of the needs.
  *
  */
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
+
+
     class Menu
     {
+        private List<IBaseCommand> CommandsCreated = new List<IBaseCommand>();
+
         public Menu(params string[] commandsToCreate)
         {
-            List<ICommand> commandsCreated = new List<ICommand>();
+            List<IBaseCommand> commandsCreated = new List<IBaseCommand>();
 
             // Loop through all the commands to create
             foreach (string command in commandsToCreate)
@@ -36,25 +42,29 @@ namespace TP_CS_ZORK.CONSOLE.commands
                         var objectType = Type.GetType(objectToInstantiate);
                         var instantiatedObject = Activator.CreateInstance(objectType);
 
-                        commandsCreated.Add((ICommand)instantiatedObject);
+                        commandsCreated.Add((IBaseCommand)instantiatedObject);
                         break;
                     }
-
                 }
-
             }
 
+            CommandsCreated = commandsCreated;
+        }
+
+        // Activate the menu, displaying commands. Will execute the choosen command.
+        public async Task Activate()
+        {
             Console.WriteLine("\n\n\n");
 
             // This loop creates a list of commands:
-            DisplayCommands(commandsCreated);
+            DisplayCommands(CommandsCreated);
 
             // Read until the input is valid.
-            ReadInput(commandsCreated);
+            await ReadInput(CommandsCreated);
         }
 
         // Execute the command selected by th player
-        protected static void ReadInput(List<ICommand> commands)
+        protected static async Task ReadInput(List<IBaseCommand> commands)
         {
             var userChoice = string.Empty;
             int commandIndex;
@@ -65,13 +75,21 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 userChoice = Console.ReadLine();
             }
 
-            commands[commandIndex - 1].Execute(commandIndex);
+            var command = commands[commandIndex - 1];
+            
+            if (command is ICommand)
+            {
+                ((ICommand) command).Execute(commandIndex);
+            } else
+            {
+                await ((ICommandAsync) command).ExecuteAsync(commandIndex);
+            }
 
             Console.WriteLine("\n\n\n");
         }
 
         // Display names of list of commands
-        protected static void DisplayCommands(List<ICommand> commands)
+        protected static void DisplayCommands(List<IBaseCommand> commands)
         {
             Console.WriteLine("\n\n\n");
 

@@ -5,11 +5,11 @@ using TP_CS_ZORK.CONSOLE.maps;
 
 namespace TP_CS_ZORK.CONSOLE.characters
 {
-    class Player
+    class PlayerOLD
     {
         public string name;
         public int hp = 100;
         public int currentCellId;
-        public Cell[] currentMap;
+        public CellOLD[] currentMap;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace TP_CS_ZORK.CONSOLE.maps
 {
-    class Cell
+    class CellOLD
     {
-        public Cell(int p_posX, int p_posY, string p_description, int p_playerId)
+        public CellOLD(int p_posX, int p_posY, string p_description, int p_playerId)
         {
             posX = p_posX;
             posY = p_posY;
@@ -12,7 +12,7 @@ namespace TP_CS_ZORK.CONSOLE.maps
             playerId = p_playerId;
         }
 
-        public Cell(int p_posX, int p_posY)
+        public CellOLD(int p_posX, int p_posY)
         {
             posX = p_posX; 
             posY = p_posY;
