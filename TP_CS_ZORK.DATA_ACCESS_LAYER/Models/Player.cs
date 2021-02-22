@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 {
-    public partial class Player
+    public partial class Player : BaseDataObject
     {
         public Player()
         {
@@ -14,7 +14,6 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
             Weapons = new HashSet<Weapon>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public int Exp { get; set; }
         public int Hp { get; set; }

@@ -5,14 +5,13 @@ using System.Collections.Generic;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 {
-    public partial class ObjectsType
+    public partial class ObjectsType : BaseDataObject
     {
         public ObjectsType()
         {
             Objects = new HashSet<Object>();
         }
 
-        public int Id { get; set; }
         public int Damage { get; set; }
         public int Heal { get; set; }
         public int MissRate { get; set; }

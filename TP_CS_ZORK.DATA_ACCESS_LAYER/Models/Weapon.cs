@@ -5,9 +5,8 @@ using System.Collections.Generic;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 {
-    public partial class Weapon
+    public partial class Weapon : BaseDataObject
     {
-        public int Id { get; set; }
         public int PlayerId { get; set; }
         public int WeaponTypeId { get; set; }
 

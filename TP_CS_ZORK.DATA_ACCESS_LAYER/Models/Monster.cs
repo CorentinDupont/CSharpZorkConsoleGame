@@ -5,9 +5,8 @@ using System.Collections.Generic;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 {
-    public partial class Monster
+    public partial class Monster : BaseDataObject
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int Damage { get; set; }
         public int MissRate { get; set; }
