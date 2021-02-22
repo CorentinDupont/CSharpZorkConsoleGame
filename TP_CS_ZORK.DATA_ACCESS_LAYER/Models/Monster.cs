@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
 {
-    public partial class Monster: BaseDataObject
+    public partial class Monster : BaseDataObject
     {
         public string Name { get; set; }
         public int Damage { get; set; }

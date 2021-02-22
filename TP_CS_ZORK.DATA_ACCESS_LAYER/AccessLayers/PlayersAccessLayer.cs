@@ -7,19 +7,19 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 {
-    public class MonstersAccessLayer : BaseAccessLayer<Monster>
+    class PlayersAccessLayer : BaseAccessLayer<Player>
     {
 
-        private static MonstersAccessLayer instance = null;
+        private static PlayersAccessLayer instance = null;
 
-        private MonstersAccessLayer(ZorkDbContext context) : base(context) {}
+        private PlayersAccessLayer(ZorkDbContext context) : base(context) { }
 
-        public static MonstersAccessLayer GetInstance()
+        public static PlayersAccessLayer GetInstance()
         {
             if (instance == null)
             {
                 var context = DbContextStore.GetInstance().dbContext;
-                instance = new MonstersAccessLayer(context);
+                instance = new PlayersAccessLayer(context);
             }
 
             return instance;
