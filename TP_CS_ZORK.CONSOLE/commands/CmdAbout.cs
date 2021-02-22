@@ -8,11 +8,11 @@ using TP_CS_ZORK.CONSOLE.utils;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdAbout : ICommand
+    class CmdAbout : ICommandAsync
     {
         public string Description => "About";
 
-        public void Execute(int number)
+        public async Task ExecuteAsync(int number)
         {
             Console.Clear();
             Console.WriteLine("\n\n\n");
@@ -24,12 +24,14 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             Console.ReadLine();
 
-            new Menu(
+            var menu = new Menu(
                 CommandsEnum.CmdCreateNewGame.ToString(),
                 CommandsEnum.CmdLoadSavedGame.ToString(),
                 CommandsEnum.CmdAbout.ToString(),
                 CommandsEnum.CmdExit.ToString()
             );
+
+            await menu.Activate();
         }
     }
 }
