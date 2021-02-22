@@ -7,7 +7,7 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 {
-    class PlayersAccessLayer : BaseAccessLayer<Player>
+    public class PlayersAccessLayer : BaseAccessLayer<Player>
     {
 
         private static PlayersAccessLayer instance = null;
