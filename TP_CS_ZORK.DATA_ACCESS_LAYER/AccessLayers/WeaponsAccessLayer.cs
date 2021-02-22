@@ -7,7 +7,7 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 {
-    class WeaponsAccessLayer : BaseAccessLayer<Weapon>
+    public class WeaponsAccessLayer : BaseAccessLayer<Weapon>
     {
 
         private static WeaponsAccessLayer instance = null;
