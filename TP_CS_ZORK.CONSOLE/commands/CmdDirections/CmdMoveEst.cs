@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TP_CS_ZORK.CONSOLE.characters;
 using TP_CS_ZORK.CONSOLE.commands;
-using TP_CS_ZORK.CONSOLE.maps;
 using TP_CS_ZORK.CONSOLE.utils;
+using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
@@ -16,31 +15,35 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void Execute(int number)
         {
-            Player player = Player.GetInstance();
+            Player player = GameInstance.GetPlayerInstance();
 
-            Cell currentCellPlayer = player.GetCurrentCell(player.currentCellId);
 
-            int newPosition = currentCellPlayer.posX + 1;
-
-            // Check if player in on the border
-            if (newPosition < player.currentMap.GetLongLength(0))
+            // Check if next cell in not the border
+            int newPosition = player.CurrentCell.PosX + 1;
+            if (newPosition < player.Cells.Last().PosX)
             {
-                Cell estCellPlayer = (Cell)player.currentMap.GetValue(newPosition, currentCellPlayer.posY);
-
                 // Check if the next cell is a wall
-                if (estCellPlayer.canMoveTo == true)
+                Cell estCellPlayer = GameInstance.GetNextCell("est");
+                if (estCellPlayer.CanMoveTo == true)
                 {
 
-                        MenuMove();
+                        MovePlayer(player, estCellPlayer);
 
+                        // Check if a monster spawn
                         Random random = new Random();
                         int spawnMonster = random.Next(0, 100);  // creates a number between 5 and 20
-                        if (spawnMonster < estCellPlayer.monsterRate)
+                        if (spawnMonster < estCellPlayer.MonsterRate)
                         {
-                            Monster monster = new Monster(estCellPlayer.id); ;
-                            player.GetCurrentCell(player.currentCellId).currentMonster = monster;
-                            Fight(monster, player);
+                            //Monster monster = new Monster(estCellPlayer.id);
+                            //player.GetCurrentCell(player.currentCellId).currentMonster = monster;
+                            //Fight(monster, player);
                         }
+
+                    // Check if an item spawn
+
+                    // Check if an event spawn
+
+
 
                 }
                 else
@@ -70,24 +73,29 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void MovePlayer(Player player, Cell newCell)
         {
-            player.currentCellId = newCell.id;
-            Console.WriteLine($"newCellPlayer.posX:  {newCell.posX}");
-            Console.WriteLine($"newCellPlayer.posY:  {newCell.posY}");
-            Console.WriteLine($"You are on a :  {newCell.description}");
+            player.CurrentCell = newCell;
+            Console.WriteLine($"newCellPlayer.posX:  {newCell.PosX}");
+            Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
+            Console.WriteLine($"You are on a :  {newCell.Description}");
             Console.ReadLine();
         }
 
         public void Fight(Monster monster, Player player)
         {
-            Console.WriteLine($"You are attacked by a {monster.name} !");
-            player.hp -= monster.damages;
-            Console.WriteLine($"You take {monster.damages}, you still have {player.hp} !");
+            Console.WriteLine($"You are attacked by a {monster.Name} !");
+            player.Hp -= monster.Damage;
+            Console.WriteLine($"You take {monster.Damage}, you still have {player.Hp} !");
             Console.WriteLine($"What do you want to do ?");
+
+            while(player.Hp != 0 || monster.Hp != 0)
+            {
+                new Menu(
+                CommandsEnum.CmdHit.ToString(),
+                CommandsEnum.CmdUseObject.ToString(),
+                CommandsEnum.CmdEscape.ToString());
+            }
             
-            new Menu(
-            CommandsEnum.CmdHit.ToString(),
-            CommandsEnum.CmdUseObject.ToString(),
-            CommandsEnum.CmdEscape.ToString());
+            
         }
     }
 }

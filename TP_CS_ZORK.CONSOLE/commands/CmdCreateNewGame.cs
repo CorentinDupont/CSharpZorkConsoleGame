@@ -3,30 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TP_CS_ZORK.CONSOLE.characters;
-using TP_CS_ZORK.CONSOLE.maps;
 using TP_CS_ZORK.CONSOLE.utils;
 using TP_CS_ZORK.CONSOLE.commands;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
+using System.Collections;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
     class CmdCreateNewGame : ICommandAsync
     {
+
+        const int minWidthMap = 5;
+        const int minHeightMap = 5;
+        const int maxWidthMap = 20;
+        const int maxHeightMap = 20;
+        int widthMap = 0;
+        int heightMap = 0;
+
         public string Description => "Create new game";
 
         private readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
+        private readonly CellsAccessLayer cellsAccessLayer = CellsAccessLayer.GetInstance();
 
         public async Task ExecuteAsync(int number)
         {
 
             // Setting game
-            Player player = await CreatePlayer();
-            CellOLD[,] map = CreateMap();
-            DescribeMap(map, player);
-            
-            player.currentMap = map;
+            Cell[] map = await CreateMap();
+            FillMap(map);
+            Player player = await CreatePlayer(map);
+
+            player.Cells = map;
 
             // Display game
             var menu = new Menu(
@@ -40,18 +48,11 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
 
         // Create the player with a custom pseudo and base stats in DB
-        private async Task<Player> CreatePlayer() { 
-        
+        private async Task<Player> CreatePlayer(Cell[] map) {
+
             // CREATE PLAYER
-            var player = new Player();
-
-            Console.WriteLine("Enter your name!");
-            Console.WriteLine("\n");
-
-            player.Name = Console.ReadLine();
-            player.MaxHp = 20;
-            player.Hp = player.MaxHp;
-            player.Exp = 0;
+            Player player = GameInstance.GetPlayerInstance();
+            SpawnPlayer(player, map);
 
             await playersAccessLayer.AddAsync(player);
 
@@ -62,90 +63,76 @@ namespace TP_CS_ZORK.CONSOLE.commands
             return insertedPlayer;
         }
 
-        private CellOLD[,] CreateMap()
+        private async Task<Cell[]> CreateMap()
+        {
+
+            Random random = new Random();
+            widthMap = random.Next(minWidthMap, maxWidthMap + 1);  // creates a number between 5 and maxWidthMap
+            heightMap = random.Next(minHeightMap, maxHeightMap + 1);
+
+            Cell[] map = new Cell[widthMap * heightMap];
+            return map;
+        }
+
+        private async void FillMap(Cell[] map)
         {
             Random random = new Random();
-            int widthMap = random.Next(5, 21);  // creates a number between 5 and 20
-            int heightMap = random.Next(5, 21);
 
-            CellOLD[,] map = new CellOLD[widthMap, heightMap];
-
-            int idNewCell = 0;
+            //int idNewCell = 0;
+            int rateCellIsWalkable = 20;
+            int indexArray = 0;
             // fill each row
             for (int i = 0; i < widthMap; i++)
             {
                 // fill each column
                 for (int y = 0; y < heightMap; y++)
                 {
-                    idNewCell++;
-                    //Console.WriteLine($"i : {i}");
-                    //Console.WriteLine($"y : {y}");
-
-                    map.SetValue(new CellOLD(i, y), i, y);
-                    //Console.WriteLine($"idNewCell : {idNewCell}");
-                    Cell newCell = new Cell(i, y, idNewCell);
-                    
-                    if (random.Next(0, 101) > 20){ // Determine if the cell is walkable
-                        newCell.canMoveTo = true;
-                        newCell.description = CellsEnum.DIRT_ROAD.ToString();
+                    //idNewCell++;
+                    Cell newCell = new Cell();
+                    newCell.Id = indexArray + 1;
+                    newCell.PosX = i;
+                    newCell.PosY = y;
+                    //newCell.Id = idNewCell;
+                    if (random.Next(0, 101) > rateCellIsWalkable) // Determine if the cell is walkable
+                    {
+                        newCell.CanMoveTo = true;
+                        newCell.Description = CellsEnum.DIRT_ROAD.ToString();
                     } else
                     {
-                        newCell.canMoveTo = false;
-                        newCell.description = CellsEnum.WALL.ToString();
+                        newCell.CanMoveTo = false;
+                        newCell.Description = CellsEnum.WALL.ToString();
                     }
-                    
-                    map.SetValue(newCell, i, y); // Set the cell in the map
+
+                    await cellsAccessLayer.AddAsync(newCell);
+                    map[indexArray] = newCell; // Set the cell in the map
+                    indexArray++;
+
                 }
             }
 
             //Console.WriteLine($"Total cells : {map.Length}");
-
-            return map;
         }
 
-        private void SpawnPlayer(Player player, CellOLD[,] map)
+        private void SpawnPlayer(Player player, Cell[] map)
         {
 
-            int widthMap = (int)map.GetLongLength(0); // Get width map
-            int heightMap = (int)map.GetLongLength(1); // Get height map
-            //Console.WriteLine($"widthMap : {widthMap}");
-            //Console.WriteLine($"heightMap : {heightMap}");
+            Cell lastCell = map.Last();
+            int widthMap = lastCell.PosX ; // Get width map
+            int heightMap = lastCell.PosY; // Get height map
 
 
             Random random = new Random();
-            int randomPositionOnWidthAxis = random.Next(5, widthMap - 1);
-            int randomPositionOnHeightAxis = random.Next(5, heightMap - 1);
+            int randomPositionOnWidthAxis = random.Next(0, widthMap - 1);
+            int randomPositionOnHeightAxis = random.Next(0, heightMap - 1);
 
-            // Create a cell for the player to spawn, and replace the one that is empty
-            CellOLD currentCellPlayer = (CellOLD) map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
-            currentCellPlayer.description = CellsEnum.SPAWN.ToString();
-            currentCellPlayer.posX = randomPositionOnWidthAxis;
-            currentCellPlayer.posY = randomPositionOnHeightAxis;
-
-            map.SetValue(currentCellPlayer, randomPositionOnWidthAxis, randomPositionOnHeightAxis);
-            // player.currentCellId = currentCellPlayer.id;
-            Cell newCellPlayer = (Cell)map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
-            newCellPlayer.description = CellsEnum.SPAWN.ToString();
-            newCellPlayer.posX = randomPositionOnWidthAxis;
-            newCellPlayer.posY = randomPositionOnHeightAxis;
-
-            Cell oldCell = (Cell)map.GetValue(randomPositionOnWidthAxis, randomPositionOnHeightAxis);
-
-            newCellPlayer.id = oldCell.id;
+            // Create a cell for the player to spawn
             
-            // Replace the old cell in the map
-            map.SetValue(newCellPlayer, randomPositionOnWidthAxis, randomPositionOnHeightAxis);
-            player.currentCellId = newCellPlayer.id;
 
-        }
+            Cell newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
 
-        /*
-         * Create all details on map : spawns, obstacles, monsters...
-         */
-        public void DescribeMap(CellOLD[,] map, Player player)
-        {
-            SpawnPlayer(player, map);
-            //Spawn...
+            newCellPlayer.Description = CellsEnum.SPAWN.ToString();
+
+            player.CurrentCell = newCellPlayer;
         }
     }
 }
