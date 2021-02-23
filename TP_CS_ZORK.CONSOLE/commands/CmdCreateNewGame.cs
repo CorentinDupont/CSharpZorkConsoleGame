@@ -50,17 +50,21 @@ namespace TP_CS_ZORK.CONSOLE.commands
         // Create the player with a custom pseudo and base stats in DB
         private async Task<Player> CreatePlayer(Cell[] map) {
 
-            // CREATE PLAYER
             Player player = GameInstance.GetPlayerInstance();
+            Cell tempCell = new Cell();
+            player.CurrentCell = tempCell;
+
             SpawnPlayer(player, map);
 
-            await playersAccessLayer.AddAsync(player);
+            //await playersAccessLayer.AddAsync(player);
 
             Console.WriteLine($"Welcome to a new world {player.Name} !");
             Console.WriteLine("\n\n\n");
 
-            var insertedPlayer = playersAccessLayer.GetSingle(p => p.Name == player.Name, true);
-            return insertedPlayer;
+            //var insertedPlayer = playersAccessLayer.GetSingle(p => p.Name == player.Name, true);
+            //return insertedPlayer;
+            return player;
+
         }
 
         private async Task<Cell[]> CreateMap()
@@ -77,7 +81,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
         private async void FillMap(Cell[] map)
         {
             Random random = new Random();
-
+            
             //int idNewCell = 0;
             int rateCellIsWalkable = 20;
             int indexArray = 0;
@@ -103,7 +107,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                         newCell.Description = CellsEnum.WALL.ToString();
                     }
 
-                    await cellsAccessLayer.AddAsync(newCell);
+                    //await cellsAccessLayer.AddAsync(newCell);
                     map[indexArray] = newCell; // Set the cell in the map
                     indexArray++;
 

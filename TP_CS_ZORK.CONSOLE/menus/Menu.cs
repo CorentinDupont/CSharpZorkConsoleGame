@@ -7,10 +7,13 @@ using TP_CS_ZORK.CONSOLE.utils;
 
 /*
  * 
- * To create a menu, just make an instance of this class with all the commands you want to display, example :
+ * To create a menu : 
+ * 1 - make an instance of this class with all the commands you want to display, example :
  *             new Menu(
  *              CommandsEnum.nameCommand.ToString(),
  *              ...);
+ *              
+ * 2 - call the method Menu.Activate()
  *              
  * The command should exists in the enum CommandsEnum in the Definitions.cs file
  * A command can be a class that implement ICommand or ICommandAsync, if function of the needs.

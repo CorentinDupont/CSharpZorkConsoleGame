@@ -17,7 +17,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
         {
             Player player = GameInstance.GetPlayerInstance();
 
-
             // Check if next cell in not the border
             int newPosition = player.CurrentCell.PosX + 1;
             if (newPosition < player.Cells.Last().PosX)
@@ -42,20 +41,15 @@ namespace TP_CS_ZORK.CONSOLE.commands
                     // Check if an item spawn
 
                     // Check if an event spawn
-
-
-
                 }
                 else
                 {
-                    Console.WriteLine($"This case is inaccessible !");
+                    Console.WriteLine($"This case is inaccessible ! It is a {estCellPlayer.Description}");
                     Console.ReadLine();
                     MenuMove();
-
                 }
             } else
             {
-
                 Console.WriteLine($"You are on the limit of the map!");
                 Console.ReadLine();
                 MenuMove();
@@ -64,11 +58,13 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void MenuMove()
         {
-            new Menu(
+            Menu menu = new Menu(
                     CommandsEnum.CmdMoveNorth.ToString(),
                     CommandsEnum.CmdMoveEst.ToString(),
                     CommandsEnum.CmdMoveWest.ToString(),
                     CommandsEnum.CmdMoveSouth.ToString());
+
+            menu.Activate();
         }
 
         public void MovePlayer(Player player, Cell newCell)
@@ -78,6 +74,14 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
             Console.WriteLine($"You are on a :  {newCell.Description}");
             Console.ReadLine();
+
+            Menu menu = new Menu(
+            CommandsEnum.CmdMoveNorth.ToString(),
+            CommandsEnum.CmdMoveEst.ToString(),
+            CommandsEnum.CmdMoveWest.ToString(),
+            CommandsEnum.CmdMoveSouth.ToString());
+
+            menu.Activate();
         }
 
         public void Fight(Monster monster, Player player)
@@ -89,10 +93,12 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             while(player.Hp != 0 || monster.Hp != 0)
             {
-                new Menu(
+                Menu menu = new Menu(
                 CommandsEnum.CmdHit.ToString(),
                 CommandsEnum.CmdUseObject.ToString(),
                 CommandsEnum.CmdEscape.ToString());
+
+                menu.Activate();
             }
             
             
