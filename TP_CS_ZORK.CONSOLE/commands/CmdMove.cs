@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TP_CS_ZORK.CONSOLE.commands;
+using TP_CS_ZORK.CONSOLE.utils;
+using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
@@ -13,8 +10,59 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void Execute(int number)
         {
+            Menu menu = new Menu(
+                CommandsEnum.CmdMoveNorth.ToString(),
+                CommandsEnum.CmdMoveEst.ToString(),
+                CommandsEnum.CmdMoveSouth.ToString(),
+                CommandsEnum.CmdMoveWest.ToString());
+
             Console.Clear();
 
+            menu.Activate();
         }
+
+        public void MovePlayer(Player player, Cell newCell)
+        {
+            player.CurrentCell = newCell;
+            Console.WriteLine($"newCellPlayer.posX:  {newCell.PosX}");
+            Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
+            Console.WriteLine($"You are on a :  {newCell.Description}");
+            Console.ReadLine();
+
+            Menu menu = new Menu(
+            CommandsEnum.CmdMoveNorth.ToString(),
+            CommandsEnum.CmdMoveEst.ToString(),
+            CommandsEnum.CmdMoveWest.ToString(),
+            CommandsEnum.CmdMoveSouth.ToString());
+
+            menu.Activate();
+        }
+
+        public void MenuMove()
+        {
+            Menu menu = new Menu(
+                    CommandsEnum.CmdMoveNorth.ToString(),
+                    CommandsEnum.CmdMoveEst.ToString(),
+                    CommandsEnum.CmdMoveWest.ToString(),
+                    CommandsEnum.CmdMoveSouth.ToString());
+
+            menu.Activate();
+        }
+
+        public void Blocked(Cell cell)
+        {
+            Console.WriteLine($"This case is inaccessible ! It is a {cell.Description}");
+            Console.ReadLine();
+            MenuMove();
+        }
+
+        public void Blocked()
+        {
+            Console.WriteLine($"You are on the limit of the map!");
+            Console.ReadLine();
+            MenuMove();
+        }
+
+
     }
 }
