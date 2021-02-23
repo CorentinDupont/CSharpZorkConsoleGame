@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TP_CS_ZORK.CONSOLE.characters;
-using TP_CS_ZORK.CONSOLE.commands;
 using TP_CS_ZORK.CONSOLE.utils;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
@@ -34,10 +32,13 @@ namespace TP_CS_ZORK.CONSOLE.commands
                     int spawnMonster = random.Next(0, 100);  // creates a number between 5 and 20
                     if (spawnMonster < nextCell.MonsterRate)
                     {
-                        //Monster monster = new Monster(estCellPlayer.id);
-                        //player.GetCurrentCell(player.currentCellId).currentMonster = monster;
-                        //GameInstance.Fight(monster, player);
+                        GameInstance.Fight(GameInstance.SummonMonster("Vilain"), player);
                     }
+                    else if (spawnMonster >= 90 && spawnMonster <= 100)
+                    {
+                        GameInstance.Fight(GameInstance.SummonMonster("Grand mechant"), player);
+                    }
+                    MenuMove();
 
                     // Check if an item spawn
 

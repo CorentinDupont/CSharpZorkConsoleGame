@@ -11,6 +11,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
     static class GameInstance
     {
 
+        private static Monster _fightingMonster;
         private static Player _playerInstance;
 
         public static Player GetPlayerInstance()
@@ -61,14 +62,34 @@ namespace TP_CS_ZORK.CONSOLE.utils
             return new Cell();
         }
 
+        static public Monster SummonMonster(string type)
+        {
+            _fightingMonster = new Monster();
+            switch (type)
+            {
+                case "Vilain":
+                    _fightingMonster.Name = "Vilain";
+                    _fightingMonster.Hp = 100;
+                    _fightingMonster.Damage = 5;
+                    _fightingMonster.MissRate = 20;
+                    break;
+                case "Grand mechant":
+                    _fightingMonster.Name = "Grand mechant";
+                    _fightingMonster.Hp = 300;
+                    _fightingMonster.Damage = _fightingMonster.Hp / 8;
+                    _fightingMonster.MissRate = 10;
+                    break;
+            }
+
+            return _fightingMonster;
+        }
+
         static public async void Fight(Monster monster, Player player)
         {
-            Console.WriteLine($"You are attacked by a {monster.Name} !");
-            player.Hp -= monster.Damage;
-            Console.WriteLine($"You take {monster.Damage}, you still have {player.Hp} !");
-            Console.WriteLine($"What do you want to do ?");
 
-            while (player.Hp != 0 || monster.Hp != 0)
+            monsterTurn(monster, player);
+            // Fight until death
+            while (player.Hp > 0 && monster.Hp > 0)
             {
                 Menu menu = new Menu(
                 CommandsEnum.CmdHit.ToString(),
@@ -76,7 +97,67 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 CommandsEnum.CmdEscape.ToString());
 
                 await menu.Activate();
+                if (monster.Hp > 0)
+                {
+                    monsterTurn(monster, player);
+                }
+                
             }
+            // Player is dead
+            if (player.Hp <= 0)
+            {
+                Console.Clear();
+                Console.WriteLine($"\n\n\n");
+                Console.WriteLine($"You just died!");
+                player.Hp = 100;
+                Console.ReadLine();
+
+                var menu = new Menu(
+                    CommandsEnum.CmdCreateNewGame.ToString(),
+                    CommandsEnum.CmdLoadSavedGame.ToString(),
+                    CommandsEnum.CmdAbout.ToString(),
+                    CommandsEnum.CmdExit.ToString()
+                );
+                await menu.Activate();
+            }
+
         }
+
+        private static void monsterTurn(Monster monster, Player player)
+        {
+            if(monster.Name == "Grand mechant")
+            {
+                monster.Damage = monster.Hp / 15;
+            }
+
+            Random random = new Random();
+
+            if (random.Next(0,100) < monster.MissRate)
+            {
+                Console.WriteLine($"A monster attacked you but missed his punch !");
+            } else
+            {
+                Console.WriteLine($"{monster.Name} attacked you !");
+                player.Hp -= monster.Damage;
+                Console.WriteLine($"You take {monster.Damage}, you still have {player.Hp} lifes left!");
+            }
+            
+            Console.ReadLine();
+        }
+
+        public static Monster GetFightingMonster()
+        {
+            if (_fightingMonster.Hp > 0)
+            {
+                return _fightingMonster;
+            } else
+            {
+                Monster noMonster = new Monster();
+                noMonster.Name = "No monster";
+                noMonster.Hp = 0;
+                return noMonster;
+            }
+            
+        } 
     }
 }
