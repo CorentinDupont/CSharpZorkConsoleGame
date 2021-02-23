@@ -112,8 +112,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
                 }
             }
-
-            //Console.WriteLine($"Total cells : {map.Length}");
         }
 
         private void SpawnPlayer(Player player, Cell[] map)
@@ -129,8 +127,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
             int randomPositionOnHeightAxis = random.Next(0, heightMap - 1);
 
             // Create a cell for the player to spawn
-            
-
             Cell newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
 
             newCellPlayer.Description = CellsEnum.SPAWN.ToString();
