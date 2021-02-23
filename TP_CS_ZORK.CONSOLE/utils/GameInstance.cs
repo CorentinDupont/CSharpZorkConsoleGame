@@ -61,7 +61,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
             return new Cell();
         }
 
-        static public void Fight(Monster monster, Player player)
+        static public async void Fight(Monster monster, Player player)
         {
             Console.WriteLine($"You are attacked by a {monster.Name} !");
             player.Hp -= monster.Damage;
@@ -75,7 +75,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 CommandsEnum.CmdUseObject.ToString(),
                 CommandsEnum.CmdEscape.ToString());
 
-                menu.Activate();
+                await menu.Activate();
             }
         }
     }

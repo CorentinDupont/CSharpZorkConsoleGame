@@ -10,15 +10,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void Execute(int number)
         {
-            Menu menu = new Menu(
-                CommandsEnum.CmdMoveNorth.ToString(),
-                CommandsEnum.CmdMoveEst.ToString(),
-                CommandsEnum.CmdMoveSouth.ToString(),
-                CommandsEnum.CmdMoveWest.ToString());
-
-            Console.Clear();
-
-            menu.Activate();
+            MenuMove();
         }
 
         public void MovePlayer(Player player, Cell newCell)
@@ -29,16 +21,10 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Console.WriteLine($"You are on a :  {newCell.Description}");
             Console.ReadLine();
 
-            Menu menu = new Menu(
-            CommandsEnum.CmdMoveNorth.ToString(),
-            CommandsEnum.CmdMoveEst.ToString(),
-            CommandsEnum.CmdMoveWest.ToString(),
-            CommandsEnum.CmdMoveSouth.ToString());
-
-            menu.Activate();
+            MenuMove();
         }
 
-        public void MenuMove()
+        public async void MenuMove()
         {
             Menu menu = new Menu(
                     CommandsEnum.CmdMoveNorth.ToString(),
@@ -46,7 +32,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                     CommandsEnum.CmdMoveWest.ToString(),
                     CommandsEnum.CmdMoveSouth.ToString());
 
-            menu.Activate();
+            await menu.Activate();
         }
 
         public void Blocked(Cell cell)
