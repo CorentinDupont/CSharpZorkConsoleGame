@@ -14,10 +14,10 @@ namespace TP_CS_ZORK.CONSOLE.commands
     class CmdCreateNewGame : ICommandAsync
     {
 
-        const int minWidthMap = 5;
-        const int minHeightMap = 5;
-        const int maxWidthMap = 20;
-        const int maxHeightMap = 20;
+        const int minWidthMap = 3;
+        const int minHeightMap = 3;
+        const int maxWidthMap = 5;
+        const int maxHeightMap = 5;
         int widthMap = 0;
         int heightMap = 0;
 
@@ -93,10 +93,9 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 {
                     //idNewCell++;
                     Cell newCell = new Cell();
-                    newCell.Id = indexArray + 1;
+                    //newCell.Id = indexArray + 1;
                     newCell.PosX = i;
                     newCell.PosY = y;
-                    //newCell.Id = idNewCell;
                     if (random.Next(0, 101) > rateCellIsWalkable) // Determine if the cell is walkable
                     {
                         newCell.CanMoveTo = true;
@@ -135,7 +134,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Cell newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
 
             newCellPlayer.Description = CellsEnum.SPAWN.ToString();
-
+            newCellPlayer.CanMoveTo = true;
             player.CurrentCell = newCellPlayer;
         }
     }

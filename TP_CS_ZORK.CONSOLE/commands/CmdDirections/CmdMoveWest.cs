@@ -6,55 +6,52 @@ using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.characters;
 using TP_CS_ZORK.CONSOLE.commands;
 using TP_CS_ZORK.CONSOLE.utils;
+using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMoveWest : ICommand
+    class CmdMoveWest : CmdMove, ICommand
     {
         public string Description => "Move to west";
 
         public void Execute(int number)
         {
-            //Player player = Player.GetInstance();
+            Player player = GameInstance.GetPlayerInstance();
 
-            //Cell currentCellPlayer = player.GetCurrentCell(player.currentCellId);
+            // Check if next cell in not the border
+            int newPosition = player.CurrentCell.PosX - 1;
+            if (newPosition >= player.Cells.First().PosX)
+            {
+                // Check if the next cell is a wall
+                Cell nextCell = GameInstance.GetNextCell("west");
+                if (nextCell.CanMoveTo == true)
+                {
 
-            ////Console.WriteLine($"currentCellPlayer.posX:  {currentCellPlayer.posX}");
-            ////Console.WriteLine($"currentCellPlayer.posY:  {currentCellPlayer.posY}");
-            ////Console.WriteLine($"currentCellPlayer.id:  {currentCellPlayer.id}");
-            ////Console.WriteLine($"currentCellPlayer.description:  {currentCellPlayer.description}");
+                    MovePlayer(player, nextCell);
 
-            //int newPosition = currentCellPlayer.posX + 1;
-            //Cell estCellPlayer = (Cell)player.currentMap.GetValue(newPosition, currentCellPlayer.posY);
+                    // Check if a monster spawn
+                    Random random = new Random();
+                    int spawnMonster = random.Next(0, 100);  // creates a number between 5 and 20
+                    if (spawnMonster < nextCell.MonsterRate)
+                    {
+                        //Monster monster = new Monster(estCellPlayer.id);
+                        //player.GetCurrentCell(player.currentCellId).currentMonster = monster;
+                        //GameInstance.Fight(monster, player);
+                    }
 
-            //if (estCellPlayer.canMoveTo == true)
-            //{
-            //    player.currentCellId = estCellPlayer.id;
+                    // Check if an item spawn
 
-            //    Cell newCellPlayer = player.GetCurrentCell(player.currentCellId);
-
-            //    Console.WriteLine($"newCellPlayer.posX:  {newCellPlayer.posX}");
-            //    Console.WriteLine($"newCellPlayer.posY:  {newCellPlayer.posY}");
-            //    Console.WriteLine($"newCellPlayer.id:  {newCellPlayer.id}");
-            //    Console.WriteLine($"newCellPlayer.description:  {newCellPlayer.description}");
-            //    Console.ReadLine();
-            //    new Menu(
-            //        CommandsEnum.CmdMoveNorth.ToString(),
-            //        CommandsEnum.CmdMoveEst.ToString(),
-            //        CommandsEnum.CmdMoveWest.ToString(),
-            //        CommandsEnum.CmdMoveSouth.ToString());
-            //}
-            //else
-            //{
-            //    Console.WriteLine($"This case is inaccessible !");
-            //    Console.ReadLine();
-            //    new Menu(
-            //        CommandsEnum.CmdMoveNorth.ToString(),
-            //        CommandsEnum.CmdMoveEst.ToString(),
-            //        CommandsEnum.CmdMoveWest.ToString(),
-            //        CommandsEnum.CmdMoveSouth.ToString());
-            //}
-
+                    // Check if an event spawn
+                }
+                else
+                {
+                    Blocked(nextCell);
+                }
+            }
+            else
+            {
+                Blocked();
+            }
         }
     }
 }

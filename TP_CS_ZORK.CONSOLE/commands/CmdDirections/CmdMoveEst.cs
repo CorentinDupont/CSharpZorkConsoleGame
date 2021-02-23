@@ -9,7 +9,7 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMoveEst : ICommand
+    class CmdMoveEst : CmdMove, ICommand
     {
         public string Description => "Move to est";
 
@@ -19,24 +19,24 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             // Check if next cell in not the border
             int newPosition = player.CurrentCell.PosX + 1;
-            if (newPosition < player.Cells.Last().PosX)
+            if (newPosition <= player.Cells.Last().PosX)
             {
                 // Check if the next cell is a wall
-                Cell estCellPlayer = GameInstance.GetNextCell("est");
-                if (estCellPlayer.CanMoveTo == true)
+                Cell nextCell = GameInstance.GetNextCell("est");
+                if (nextCell.CanMoveTo == true)
                 {
 
-                        MovePlayer(player, estCellPlayer);
+                    MovePlayer(player, nextCell);
 
-                        // Check if a monster spawn
-                        Random random = new Random();
-                        int spawnMonster = random.Next(0, 100);  // creates a number between 5 and 20
-                        if (spawnMonster < estCellPlayer.MonsterRate)
-                        {
-                            //Monster monster = new Monster(estCellPlayer.id);
-                            //player.GetCurrentCell(player.currentCellId).currentMonster = monster;
-                            //Fight(monster, player);
-                        }
+                    // Check if a monster spawn
+                    Random random = new Random();
+                    int spawnMonster = random.Next(0, 100);  // creates a number between 5 and 20
+                    if (spawnMonster < nextCell.MonsterRate)
+                    {
+                        //Monster monster = new Monster(estCellPlayer.id);
+                        //player.GetCurrentCell(player.currentCellId).currentMonster = monster;
+                        //GameInstance.Fight(monster, player);
+                    }
 
                     // Check if an item spawn
 
@@ -44,64 +44,13 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 }
                 else
                 {
-                    Console.WriteLine($"This case is inaccessible ! It is a {estCellPlayer.Description}");
-                    Console.ReadLine();
-                    MenuMove();
+                    Blocked(nextCell);
                 }
             } else
             {
-                Console.WriteLine($"You are on the limit of the map!");
-                Console.ReadLine();
-                MenuMove();
+                Blocked();
             }
         }
 
-        public void MenuMove()
-        {
-            Menu menu = new Menu(
-                    CommandsEnum.CmdMoveNorth.ToString(),
-                    CommandsEnum.CmdMoveEst.ToString(),
-                    CommandsEnum.CmdMoveWest.ToString(),
-                    CommandsEnum.CmdMoveSouth.ToString());
-
-            menu.Activate();
-        }
-
-        public void MovePlayer(Player player, Cell newCell)
-        {
-            player.CurrentCell = newCell;
-            Console.WriteLine($"newCellPlayer.posX:  {newCell.PosX}");
-            Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
-            Console.WriteLine($"You are on a :  {newCell.Description}");
-            Console.ReadLine();
-
-            Menu menu = new Menu(
-            CommandsEnum.CmdMoveNorth.ToString(),
-            CommandsEnum.CmdMoveEst.ToString(),
-            CommandsEnum.CmdMoveWest.ToString(),
-            CommandsEnum.CmdMoveSouth.ToString());
-
-            menu.Activate();
-        }
-
-        public void Fight(Monster monster, Player player)
-        {
-            Console.WriteLine($"You are attacked by a {monster.Name} !");
-            player.Hp -= monster.Damage;
-            Console.WriteLine($"You take {monster.Damage}, you still have {player.Hp} !");
-            Console.WriteLine($"What do you want to do ?");
-
-            while(player.Hp != 0 || monster.Hp != 0)
-            {
-                Menu menu = new Menu(
-                CommandsEnum.CmdHit.ToString(),
-                CommandsEnum.CmdUseObject.ToString(),
-                CommandsEnum.CmdEscape.ToString());
-
-                menu.Activate();
-            }
-            
-            
-        }
     }
 }
