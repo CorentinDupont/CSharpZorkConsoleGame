@@ -11,9 +11,9 @@ namespace TP_CS_ZORK.CONSOLE.commands
 {
     class CmdMoveWest : CmdMove, ICommandAsync
     {
-        public string Description => "Move to west";
+        public new string Description => "Move to west";
 
-        public async Task ExecuteAsync(int number)
+        public async new Task ExecuteAsync(int number)
         {
             Player player = await GameInstance.GetPlayerInstance();
 
@@ -40,7 +40,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                         GameInstance.Fight(GameInstance.SummonMonster("Grand mechant"), player);
                     }
 
-                    MenuMove();
+                    await MenuMove();
 
                     // Check if an item spawn
 
@@ -48,12 +48,12 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 }
                 else
                 {
-                    Blocked(nextCell);
+                    await Blocked(nextCell);
                 }
             }
             else
             {
-                Blocked();
+                await Blocked();
             }
         }
     }
