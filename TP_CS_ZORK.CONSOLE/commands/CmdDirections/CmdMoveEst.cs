@@ -9,13 +9,13 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMoveEst : CmdMove, ICommand
+    class CmdMoveEst : CmdMove, ICommandAsync
     {
-        public string Description => "Move to est";
+        public new string Description => "Move to est";
 
-        public void Execute(int number)
+        public async new Task ExecuteAsync(int number)
         {
-            Player player = GameInstance.GetPlayerInstance();
+            Player player = await GameInstance.GetPlayerInstance();
 
             // Check if next cell in not the border
             int newPosition = player.CurrentCell.PosX + 1;
@@ -40,7 +40,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                         GameInstance.Fight(GameInstance.SummonMonster("Grand mechant"), player);
                     }
 
-                    MenuMove();
+                    await MenuMove();
 
                     // Check if an item spawn
 
@@ -48,11 +48,11 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 }
                 else
                 {
-                    Blocked(nextCell);
+                    await Blocked(nextCell);
                 }
             } else
             {
-                Blocked();
+                await Blocked();
             }
         }
 

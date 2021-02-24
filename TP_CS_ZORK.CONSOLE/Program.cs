@@ -17,6 +17,5 @@ namespace TP_CS_ZORK.CONSOLE
 
             await menu.Activate();
         }
-   
     }
 }

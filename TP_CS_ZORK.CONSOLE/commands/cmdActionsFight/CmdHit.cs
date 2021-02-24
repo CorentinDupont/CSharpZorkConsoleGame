@@ -10,14 +10,14 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdHit : ICommand
+    class CmdHit : ICommandAsync
     {
         public string Description => "Hit";
 
-        public void Execute(int number)
+        public async Task ExecuteAsync(int number)
         {
             
-            Player player = GameInstance.GetPlayerInstance();
+            Player player = await GameInstance.GetPlayerInstance();
 
             Monster monster = GameInstance.GetFightingMonster();
             int damagesMade = player.Weapons.First().WeaponType.Damage;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.commands;
+using TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.utils
@@ -14,14 +15,17 @@ namespace TP_CS_ZORK.CONSOLE.utils
         private static Monster _fightingMonster;
         private static Player _playerInstance;
 
-        public static Player GetPlayerInstance()
+        private static readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
+
+        // Get a player instance. If none created yet, create one. Else, get the last player data from db, and return it.
+        public static async Task<Player> GetPlayerInstance()
         {
             if (_playerInstance == null)
             {
                 Console.WriteLine("Enter your name!");
                 Console.WriteLine("\n");
 
-                _playerInstance = new Player
+                var player = new Player
                 {
                     Name = Console.ReadLine(),
                     MaxHp = 100,
@@ -29,8 +33,16 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     Exp = 0
                 };
 
+                await playersAccessLayer.AddAsync(player);
+                var insertedPlayer = playersAccessLayer.GetSingle(p => p.Name == player.Name, true);
+                _playerInstance = insertedPlayer;
                 //weapons.Add(new Punch());
+            } else
+            {
+                var player = playersAccessLayer.GetSingle(p => p.Id == _playerInstance.Id, true);
+                _playerInstance = player;
             }
+
             return _playerInstance;
         }
 
