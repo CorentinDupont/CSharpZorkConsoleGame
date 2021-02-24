@@ -6,15 +6,15 @@ using TP_CS_ZORK.CONSOLE.utils;
 
 namespace TP_CS_ZORK.CONSOLE.weapons
 {
-    class Punch : Weapon, ICommand
+    class Punch : ICommand
     {
-            public string Description => "Punch";
+            public new string Description => "Punch";
 
             public void Execute(int number)
             {
 
-                name = "Punch";
-                damages = 20;
+                //name = "Punch";
+                //damages = 20;
             }
     }
 }

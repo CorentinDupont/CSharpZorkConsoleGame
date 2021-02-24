@@ -19,6 +19,9 @@ namespace TP_CS_ZORK.CONSOLE.utils
         CmdCreateNewGame,
         CmdLoadSavedGame,
         CmdExit,
+
+        CmdLoadChosenGame,
+
         CmdInventory,
         CmdStats,
         CmdMove,

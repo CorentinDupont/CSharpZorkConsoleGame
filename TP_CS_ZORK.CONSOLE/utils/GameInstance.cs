@@ -46,6 +46,14 @@ namespace TP_CS_ZORK.CONSOLE.utils
             return _playerInstance;
         }
 
+        // Set the player instance for the first time, if the player exist in database.
+        // Pass by the GetPlayerInstance if want to create a new player.
+        public static void SetPlayerInstance(int playerId)
+        {
+            var player = playersAccessLayer.GetSingle(p => p.Id == playerId);
+            _playerInstance = player;
+        }
+
         public static Cell GetNextCell(string direction)
         {
 

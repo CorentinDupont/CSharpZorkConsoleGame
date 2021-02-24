@@ -10,7 +10,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
 {
     class CmdEscape : ICommand
     {
-        public string Description => "Escape";
+        public new string Description => "Escape";
 
         public void Execute(int number)
         {

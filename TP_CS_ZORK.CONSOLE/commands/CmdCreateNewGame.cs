@@ -21,7 +21,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
         int widthMap = 0;
         int heightMap = 0;
 
-        public string Description => "Create new game";
+        public new string Description => "Create new game";
 
         private readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
         private readonly CellsAccessLayer cellsAccessLayer = CellsAccessLayer.GetInstance();

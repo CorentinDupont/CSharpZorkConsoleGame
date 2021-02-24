@@ -54,6 +54,10 @@ namespace TP_CS_ZORK.CONSOLE.commands
             CommandsCreated = commandsCreated;
         }
 
+        public Menu(params IBaseCommand[] commands) {
+            CommandsCreated = new List<IBaseCommand>(commands);
+        }
+
         // Activate the menu, displaying commands. Will execute the choosen command.
         public async Task Activate()
         {
