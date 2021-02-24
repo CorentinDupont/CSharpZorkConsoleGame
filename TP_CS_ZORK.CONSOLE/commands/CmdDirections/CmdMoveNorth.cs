@@ -8,7 +8,7 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMoveNorth : CmdMove
+    class CmdMoveNorth : CmdMove, ICommandAsync
     {
         public new string Description => "Move to north";
 

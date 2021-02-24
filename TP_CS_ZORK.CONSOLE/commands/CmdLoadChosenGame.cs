@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TP_CS_ZORK.CONSOLE.utils;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
@@ -20,7 +21,16 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public async Task ExecuteAsync(int number)
         {
-            
+            GameInstance.SetPlayerInstance(player.Id);
+
+            // Display game
+            var menu = new Menu(
+                CommandsEnum.CmdInventory.ToString(),
+                CommandsEnum.CmdStats.ToString(),
+                CommandsEnum.CmdMove.ToString(),
+                CommandsEnum.CmdExit.ToString());
+
+            await menu.Activate();
         }
     }
 }

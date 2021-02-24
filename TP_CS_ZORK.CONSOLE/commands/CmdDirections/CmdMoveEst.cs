@@ -9,7 +9,7 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMoveEst : CmdMove
+    class CmdMoveEst : CmdMove, ICommandAsync
     {
         public new string Description => "Move to est";
 
