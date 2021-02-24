@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.utils;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMove : ICommand
+    class CmdMove : ICommandAsync
     {
         public string Description => "Move";
 
-        public void Execute(int number)
+        public async Task ExecuteAsync(int number)
         {
-            MenuMove();
+            await MenuMove();
         }
 
         public void MovePlayer(Player player, Cell newCell)
@@ -22,7 +23,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Console.ReadLine();
         }
 
-        public async void MenuMove()
+        public async Task MenuMove()
         {
             Menu menu = new Menu(
                     CommandsEnum.CmdMoveNorth.ToString(),
@@ -33,18 +34,18 @@ namespace TP_CS_ZORK.CONSOLE.commands
             await menu.Activate();
         }
 
-        public void Blocked(Cell cell)
+        public async Task Blocked(Cell cell)
         {
             Console.WriteLine($"This case is inaccessible ! It is a {cell.Description}");
             Console.ReadLine();
-            MenuMove();
+            await MenuMove();
         }
 
-        public void Blocked()
+        public async Task Blocked()
         {
             Console.WriteLine($"You are on the limit of the map!");
             Console.ReadLine();
-            MenuMove();
+            await MenuMove();
         }
 
 

@@ -45,6 +45,24 @@
         }
 
         /// <summary>
+        ///     Async Method that add new objects in Db.
+        /// </summary>
+        /// <param name="models">Object models to add</param>
+        /// <returns>Returns the Ids of newly created objects.</returns>
+        public async Task<int[]> AddManyAsync(TModel[] models)
+        {
+            var ids = new List<int>();
+            foreach(TModel model in models)
+            {
+                var result = this.modelSet.Add(model);
+                ids.Add(result.Entity.Id);
+            }
+            await this.context.SaveChangesAsync().ConfigureAwait(false);
+
+            return ids.ToArray();
+        }
+
+        /// <summary>
         ///     Method that retrieve a collection of data according to the filter.
         /// </summary>
         /// <remarks>
@@ -96,6 +114,7 @@
         /// <returns>Returns number of state entries written to the database.</returns>
         public async Task<int> UpdateAsync(TModel model)
         {
+            AccessLayerHelper.DetachLocal(this.context, model, model.Id);
             this.modelSet.Update(model);
             return await this.context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -110,5 +129,7 @@
             this.modelSet.Remove(this.modelSet.FirstOrDefault(model => model.Id == id));
             return await this.context.SaveChangesAsync().ConfigureAwait(false);
         }
+
+
     }
 }

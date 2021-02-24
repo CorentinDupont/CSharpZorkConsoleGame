@@ -8,13 +8,13 @@ using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdMoveNorth : CmdMove, ICommand
+    class CmdMoveNorth : CmdMove, ICommandAsync
     {
         public string Description => "Move to north";
 
-        public void Execute(int number)
+        public async Task ExecuteAsync(int number)
         {
-            Player player = GameInstance.GetPlayerInstance();
+            Player player = await GameInstance.GetPlayerInstance();
 
             // Check if next cell in not the border
             int newPosition = player.CurrentCell.PosY + 1;
