@@ -14,10 +14,10 @@ namespace TP_CS_ZORK.CONSOLE.commands
     class CmdCreateNewGame : ICommandAsync
     {
 
-        const int minWidthMap = 3;
-        const int minHeightMap = 3;
-        const int maxWidthMap = 3;
-        const int maxHeightMap = 3;
+        const int minWidthMap = 4;
+        const int minHeightMap = 4;
+        const int maxWidthMap = 6;
+        const int maxHeightMap = 6;
         int widthMap = 0;
         int heightMap = 0;
 
