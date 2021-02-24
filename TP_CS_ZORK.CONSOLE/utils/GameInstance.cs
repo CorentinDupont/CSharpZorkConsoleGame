@@ -52,7 +52,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
         // Pass by the GetPlayerInstance if want to create a new player.
         public static void SetPlayerInstance(int playerId)
         {
-            var player = playersAccessLayer.GetSingle(p => p.Id == playerId);
+            var player = playersAccessLayer.GetSingle(p => p.Id == playerId, true);
             _playerInstance = player;
         }
 
@@ -172,8 +172,9 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 player.Hp = 100;
                 Console.ReadLine();
 
-                await weaponsTypeAccessLayer.RemoveAsync(player.Weapons.First().WeaponTypeId);
+                int weaponTypeToDelete = player.Weapons.First().WeaponTypeId;
                 await weaponsAccessLayer.RemoveAsync(player.Weapons.First().Id);
+                await weaponsTypeAccessLayer.RemoveAsync(weaponTypeToDelete);
                 await playersAccessLayer.RemoveAsync(player.Id);
                 _playerInstance = null;
 
@@ -225,4 +226,5 @@ namespace TP_CS_ZORK.CONSOLE.utils
             
         } 
     }
+
 }
