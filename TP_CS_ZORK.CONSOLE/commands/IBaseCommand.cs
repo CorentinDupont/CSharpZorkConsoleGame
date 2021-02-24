@@ -8,6 +8,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
 {
     interface IBaseCommand
     {
-        string Description { get; }
+        public string Description { get; }
     }
 }

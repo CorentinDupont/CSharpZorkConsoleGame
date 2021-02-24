@@ -8,6 +8,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
 {
     interface ICommandAsync : IBaseCommand
     {
-        Task ExecuteAsync(int number);
+        public abstract Task ExecuteAsync(int number);
     }
 }
