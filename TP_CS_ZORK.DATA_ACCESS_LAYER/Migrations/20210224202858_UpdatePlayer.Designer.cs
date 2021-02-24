@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Migrations
 {
     [DbContext(typeof(ZorkDbContext))]
-    partial class ZorkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210224202858_UpdatePlayer")]
+    partial class UpdatePlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,7 +140,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CurrentCellId")
+                    b.Property<int>("CurrentCellId")
                         .HasColumnType("int");
 
                     b.Property<int>("Exp")
@@ -241,7 +243,9 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Migrations
                     b.HasOne("TP_CS_ZORK.DATA_ACCESS_LAYER.Models.Cell", "CurrentCell")
                         .WithMany("Players")
                         .HasForeignKey("CurrentCellId")
-                        .HasConstraintName("FK__Players__Current__1699586C");
+                        .HasConstraintName("FK__Players__Current__1699586C")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CurrentCell");
                 });
