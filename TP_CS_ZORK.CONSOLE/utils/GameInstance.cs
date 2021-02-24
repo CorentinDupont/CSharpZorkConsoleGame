@@ -16,6 +16,8 @@ namespace TP_CS_ZORK.CONSOLE.utils
         private static Player _playerInstance;
 
         private static readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
+        private static readonly WeaponsAccessLayer weaponsAccessLayer = WeaponsAccessLayer.GetInstance();
+        private static readonly WeaponsTypeAccessLayer weaponsTypeAccessLayer = WeaponsTypeAccessLayer.GetInstance();
 
         // Get a player instance. If none created yet, create one. Else, get the last player data from db, and return it.
         public static async Task<Player> GetPlayerInstance()
@@ -29,7 +31,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 {
                     Name = Console.ReadLine(),
                     MaxHp = 100,
-                    Hp = 100,
+                    Hp = 1,
                     Exp = 0
                 };
 
@@ -57,25 +59,63 @@ namespace TP_CS_ZORK.CONSOLE.utils
         public static Cell GetNextCell(string direction)
         {
 
-            Cell[] map = (Cell[])_playerInstance.Cells;
+            
+            Cell[] map = _playerInstance.Cells.ToArray();
             int futurePosition;
 
             switch (direction){
                 case "est":
+                
+                    Cell cell0 = new Cell();
                     futurePosition = _playerInstance.CurrentCell.PosX + 1;
-                    return map.Single(c => c.PosX == futurePosition && c.PosY == _playerInstance.CurrentCell.PosY);
+                    try
+                    {
+                        cell0 = map.Single(c => c.PosX == futurePosition && c.PosY == _playerInstance.CurrentCell.PosY);
+                    } catch (InvalidOperationException e)
+                    {
+                        Console.WriteLine("C'EST CASSE");
+                    }
+
+                    return cell0;
 
                 case "west":
+
+                    Cell cell1 = new Cell();
                     futurePosition = _playerInstance.CurrentCell.PosX - 1;
-                    return map.Single(c => c.PosX == futurePosition && c.PosY == _playerInstance.CurrentCell.PosY);
+                    try
+                    {
+                        cell1 = map.Single(c => c.PosX == futurePosition && c.PosY == _playerInstance.CurrentCell.PosY);
+                    } catch (InvalidOperationException e)
+                    {
+                        Console.WriteLine("C'EST CASSE");
+                    }
+                    return cell1;
 
                 case "north":
+
+                    Cell cell2 = new Cell();
                     futurePosition = _playerInstance.CurrentCell.PosY + 1;
-                    return map.Single(c => c.PosY == futurePosition && c.PosX == _playerInstance.CurrentCell.PosX);
+                    try
+                    {
+                        cell2 = map.Single(c => c.PosY == futurePosition && c.PosX == _playerInstance.CurrentCell.PosX);
+                    } catch (InvalidOperationException e)
+                    {
+                        Console.WriteLine("C'EST CASSE");
+                    }
+                    return cell2;
 
                 case "south":
+                    Cell cell3 = new Cell();
                     futurePosition = _playerInstance.CurrentCell.PosY - 1;
-                    return map.Single(c => c.PosY == futurePosition && c.PosX == _playerInstance.CurrentCell.PosX);
+                    try
+                    {
+                        cell3 = map.Single(c => c.PosY == futurePosition && c.PosX == _playerInstance.CurrentCell.PosX);
+                    }
+                     catch (InvalidOperationException e)
+                     {
+                        Console.WriteLine("C'EST CASSE");
+                    }
+                    return cell3;
             }
 
             Console.WriteLine("ERROR : NO CELL FOUND");
@@ -131,6 +171,11 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 Console.WriteLine($"You just died!");
                 player.Hp = 100;
                 Console.ReadLine();
+
+                await weaponsTypeAccessLayer.RemoveAsync(player.Weapons.First().WeaponTypeId);
+                await weaponsAccessLayer.RemoveAsync(player.Weapons.First().Id);
+                await playersAccessLayer.RemoveAsync(player.Id);
+                _playerInstance = null;
 
                 var menu = new Menu(
                     CommandsEnum.CmdCreateNewGame.ToString(),

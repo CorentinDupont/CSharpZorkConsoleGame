@@ -14,10 +14,10 @@ namespace TP_CS_ZORK.CONSOLE.commands
     class CmdCreateNewGame : ICommandAsync
     {
 
-        const int minWidthMap = 3;
-        const int minHeightMap = 3;
-        const int maxWidthMap = 3;
-        const int maxHeightMap = 3;
+        const int minWidthMap = 4;
+        const int minHeightMap = 4;
+        const int maxWidthMap = 6;
+        const int maxHeightMap = 6;
         int widthMap = 0;
         int heightMap = 0;
 
@@ -95,7 +95,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 {
                     //idNewCell++;
                     Cell newCell = new Cell();
-                    //newCell.Id = indexArray + 1;
                     newCell.PosX = i;
                     newCell.PosY = y;
                     newCell.MonsterRate = 25;
@@ -118,27 +117,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 }
             }
 
-            List<Cell> cellList = new List<Cell>(map);
-
-            //List<Cell> cellList = new List<Cell>(map);
-            //List<Task> tasks = new List<Task>();
-            //cellList.ForEach(cell =>
-            //{
-            //    cell.PlayerId = player.Id;
-            //    tasks.Add(cellsAccessLayer.AddAsync(cell));
-            //});
-
-            // Task.WaitAll(tasks.ToArray());
-
             await cellsAccessLayer.AddManyAsync(map);
-
-            //cellList.ForEach(async cell =>
-            //{
-            //    cell.PlayerId = player.Id;
-            //    await cellsAccessLayer.AddAsync(cell);
-            //});
-
-
             var insertedMap = cellsAccessLayer.GetCollection(c => c.PlayerId == player.Id);
             return insertedMap.ToArray();
         }
@@ -150,14 +129,38 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Cell lastCell = map.Last();
             int widthMap = lastCell.PosX ; // Get width map
             int heightMap = lastCell.PosY; // Get height map
-
+            int randomPositionOnWidthAxis;
+            int randomPositionOnHeightAxis;
 
             Random random = new Random();
-            int randomPositionOnWidthAxis = random.Next(0, widthMap - 1);
-            int randomPositionOnHeightAxis = random.Next(0, heightMap - 1);
+            if (widthMap == 0)
+            {
+                randomPositionOnWidthAxis = random.Next(0, widthMap + 1);
+                
+            } else
+            {
+                randomPositionOnWidthAxis = random.Next(0, widthMap - 1);
+            }
+
+            if (heightMap == 0)
+            {
+                randomPositionOnHeightAxis = random.Next(0, heightMap + 1);
+            } else
+            {
+                randomPositionOnHeightAxis = random.Next(0, heightMap - 1);
+            }
 
             // Create a cell for the player to spawn
-            Cell newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
+            Cell newCellPlayer = new Cell();
+            try
+            {
+                newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("C'EST CASSE");
+            }
+            
 
             // Ensure that the cell is not a wall
             newCellPlayer.Description = CellsEnum.SPAWN.ToString();
