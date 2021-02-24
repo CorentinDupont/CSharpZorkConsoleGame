@@ -41,7 +41,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Migrations
                     b.Property<int>("MonsterRate")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlayerId")
+                    b.Property<int?>("PlayerId")
                         .HasColumnType("int");
 
                     b.Property<int>("PosX")
@@ -212,8 +212,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Migrations
                     b.HasOne("TP_CS_ZORK.DATA_ACCESS_LAYER.Models.Player", "Player")
                         .WithMany("Cells")
                         .HasForeignKey("PlayerId")
-                        .HasConstraintName("FK__Cells__PlayerId__178D7CA5")
-                        .IsRequired();
+                        .HasConstraintName("FK__Cells__PlayerId__178D7CA5");
 
                     b.Navigation("Player");
                 });
