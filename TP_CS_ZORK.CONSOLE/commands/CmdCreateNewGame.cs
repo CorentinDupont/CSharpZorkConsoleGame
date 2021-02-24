@@ -14,10 +14,10 @@ namespace TP_CS_ZORK.CONSOLE.commands
     class CmdCreateNewGame : ICommandAsync
     {
 
-        const int minWidthMap = 3;
-        const int minHeightMap = 3;
-        const int maxWidthMap = 5;
-        const int maxHeightMap = 5;
+        const int minWidthMap = 5;
+        const int minHeightMap = 5;
+        const int maxWidthMap = 20;
+        const int maxHeightMap = 20;
         int widthMap = 0;
         int heightMap = 0;
 
@@ -51,8 +51,14 @@ namespace TP_CS_ZORK.CONSOLE.commands
         private async Task<Player> CreatePlayer(Cell[] map) {
 
             Player player = GameInstance.GetPlayerInstance();
-            Cell tempCell = new Cell();
-            player.CurrentCell = tempCell;
+            WeaponsType simpleWeapon = new WeaponsType();
+            simpleWeapon.Name = "Punch";
+            simpleWeapon.Damage = 30;
+            simpleWeapon.MissRate = 10;
+
+            Weapon weapon = new Weapon();
+            weapon.WeaponType = simpleWeapon;
+            player.Weapons.Add(weapon);
 
             SpawnPlayer(player, map);
 
@@ -83,7 +89,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Random random = new Random();
             
             //int idNewCell = 0;
-            int rateCellIsWalkable = 20;
+            int rateCellIsWalkable = 0;
             int indexArray = 0;
             // fill each row
             for (int i = 0; i < widthMap; i++)
@@ -96,6 +102,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                     //newCell.Id = indexArray + 1;
                     newCell.PosX = i;
                     newCell.PosY = y;
+                    newCell.MonsterRate = 25;
                     if (random.Next(0, 101) > rateCellIsWalkable) // Determine if the cell is walkable
                     {
                         newCell.CanMoveTo = true;

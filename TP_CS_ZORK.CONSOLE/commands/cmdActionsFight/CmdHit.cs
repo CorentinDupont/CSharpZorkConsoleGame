@@ -18,13 +18,29 @@ namespace TP_CS_ZORK.CONSOLE.commands
         {
             
             Player player = GameInstance.GetPlayerInstance();
-            //Monster fightedMonster = player.CurrentCell.currentMonster;
 
-            //foreach (Weapon weapon in Player.weapons)
-            //{
-            //    new Menu(weapon.name);
-            //}
-             
+            Monster monster = GameInstance.GetFightingMonster();
+            int damagesMade = player.Weapons.First().WeaponType.Damage;
+            monster.Hp -= damagesMade;
+            
+            if (monster.Hp > 0)
+            {
+                Console.WriteLine($"You inflicted {damagesMade} damages to {monster.Name}, he has {monster.Hp} lifes left");
+            } else
+            {
+                Console.WriteLine($"You inflicted {damagesMade} damages to {monster.Name}, he is dead");
+                if (monster.Name == "Vilain")
+                {
+                    player.Hp += 10;
+                    Console.WriteLine($"You recovered 10 life points");
+                } else if (monster.Name == "Grand mechant")
+                {
+                    player.Hp += 115;
+                    Console.WriteLine($"You recovered 115 life points");
+                }
+
+            }
+            Console.ReadLine();
 
         }
     }

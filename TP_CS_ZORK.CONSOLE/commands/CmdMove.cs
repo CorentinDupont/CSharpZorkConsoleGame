@@ -20,8 +20,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
             Console.WriteLine($"You are on a :  {newCell.Description}");
             Console.ReadLine();
-
-            MenuMove();
         }
 
         public async void MenuMove()
