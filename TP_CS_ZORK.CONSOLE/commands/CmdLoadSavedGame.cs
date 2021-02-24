@@ -11,7 +11,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
     {
         private PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
 
-        public string Description => "Load Saved Game"
+        public string Description => "Load Saved Game";
 
         public async Task ExecuteAsync(int number)
         {
