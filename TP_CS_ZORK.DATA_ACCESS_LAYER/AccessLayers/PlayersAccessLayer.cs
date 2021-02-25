@@ -34,7 +34,6 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 
             var item = trackingEnabled
                 ? dbQuery
-                    .Include(p => p.CurrentCell)
                     .Include(p => p.Cells)
                     .Include(p => p.Weapons).ThenInclude(w => w.WeaponType)
                     .Include(p => p.Objects).ThenInclude(o => o.ObjectType)
