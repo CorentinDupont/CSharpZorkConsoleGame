@@ -29,18 +29,44 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 Console.WriteLine("Enter your name!");
                 Console.WriteLine("\n");
 
+                List<Player> players = playersAccessLayer.GetCollection().ToList();
+                List<string> playersName = new List<string>();
+                int index = 0;
+                foreach (Player p in players)
+                {
+                    playersName.Add(p.Name);
+                    index++;
+                }
+
+
+                bool alreadyExisting = true;
+                string name = null;
+                while (alreadyExisting)
+                {
+
+                    name = Console.ReadLine();
+                    if (playersName.Contains(name) || name.Length <= 1)
+                    {
+                        Console.WriteLine("This name already exists or it is too short !");
+                    } else
+                    {
+                        alreadyExisting = false;
+                    }
+                }
+                    
                 var player = new Player
                 {
-                    Name = Console.ReadLine(),
+                    Name = name,
                     MaxHp = 100,
                     Hp = 100,
                     Exp = 0
                 };
 
+
+
                 await playersAccessLayer.AddAsync(player);
                 var insertedPlayer = playersAccessLayer.GetSingleWithRelations(p => p.Name == player.Name, true);
                 _playerInstance = insertedPlayer;
-                //weapons.Add(new Punch());
             } else
             {
                 var player = playersAccessLayer.GetSingleWithRelations(p => p.Id == _playerInstance.Id, true);
@@ -177,7 +203,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 
                 while (_playerInstance.Cells.Count != 0)
                 {
-                    cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
+                    await cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
                     _playerInstance.Cells.Remove(_playerInstance.Cells.First());
                 }
                 
