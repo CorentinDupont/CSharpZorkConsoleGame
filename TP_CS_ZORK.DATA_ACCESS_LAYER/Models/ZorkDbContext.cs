@@ -88,10 +88,10 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.HasOne(d => d.CurrentCell)
-                    .WithMany(p => p.Players)
-                    .HasForeignKey(d => d.CurrentCellId)
-                    .HasConstraintName("FK__Players__Current__1699586C");
+                //entity.HasOne(d => d.CurrentCell)
+                //    .WithMany(p => p.Players)
+                //    .HasForeignKey(d => d.CurrentCellId)
+                //    .HasConstraintName("FK__Players__Current__1699586C");
             });
 
             modelBuilder.Entity<Weapon>(entity =>

@@ -7,9 +7,10 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
+    using TP_CS_ZORK.DATA_ACCESS_LAYER.Utils;
 
     public abstract class BaseAccessLayer<TModel>
-    where TModel: BaseDataObject
+    where TModel : BaseDataObject
     {
         /// <summary>
         ///     Gets the Db context.
@@ -20,6 +21,9 @@
         ///     Gets the Db model set.
         /// </summary>
         protected readonly DbSet<TModel> modelSet;
+
+        protected List<string> CollectionNavigationProperties = new List<string>();
+        protected List<string> ReferenceNavigationProperties = new List<string>();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseAccessLayer{TModel}" /> class.
@@ -104,17 +108,27 @@
                             ? dbQuery.FirstOrDefault(filter)
                             : dbQuery.AsNoTracking().FirstOrDefault(filter);
 
+            foreach (string fk in this.CollectionNavigationProperties)
+            {
+                context.Entry(item).Collection(fk).Load();
+            }
+
+            foreach (string fk in this.ReferenceNavigationProperties)
+            {
+                context.Entry(item).Reference(fk).Load();
+            }
+
             return item;
         }
 
         /// <summary>
         ///     Async method that update a specific data object.
+        ///     The entity to update should be tracked ! (context.Entity(model).State should be "Modified" and not "Detached"
         /// </summary>
         /// <param name="model">The object data model to update.</param>
         /// <returns>Returns number of state entries written to the database.</returns>
         public async Task<int> UpdateAsync(TModel model)
         {
-            AccessLayerHelper.DetachLocal(this.context, model, model.Id);
             this.modelSet.Update(model);
             return await this.context.SaveChangesAsync().ConfigureAwait(false);
         }

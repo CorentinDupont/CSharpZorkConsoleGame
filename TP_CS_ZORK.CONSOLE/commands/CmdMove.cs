@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.utils;
+using TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.CONSOLE.commands
@@ -9,14 +11,24 @@ namespace TP_CS_ZORK.CONSOLE.commands
     {
         public string Description => "Move";
 
+        private readonly CellsAccessLayer cellsAccessLayer = CellsAccessLayer.GetInstance();
+
         public async Task ExecuteAsync(int number)
         {
             await MenuMove();
         }
 
-        public void MovePlayer(Player player, Cell newCell)
+        public async Task MovePlayer(Cell newCell)
         {
-            player.CurrentCell = newCell;
+            var player = await GameInstance.GetPlayerInstance();
+
+            var currentCell = player.Cells.Single(c => c.PlayerPresence == true);
+            currentCell.PlayerPresence = false;
+            await cellsAccessLayer.UpdateAsync(currentCell);
+
+            newCell.PlayerPresence = true;
+            await cellsAccessLayer.UpdateAsync(newCell);
+
             Console.WriteLine($"newCellPlayer.posX:  {newCell.PosX}");
             Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
             Console.WriteLine($"You are on a :  {newCell.Description}");

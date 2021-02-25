@@ -85,7 +85,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Cell[] map = new Cell[widthMap * heightMap];
 
             //int idNewCell = 0;
-            int rateCellIsWalkable = 0;
+            int rateCellIsWalkable = 20;
             int indexArray = 0;
             // fill each row
             for (int i = 0; i < widthMap; i++)
@@ -95,7 +95,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 {
                     //idNewCell++;
                     Cell newCell = new Cell();
-                    //newCell.Id = indexArray + 1;
                     newCell.PosX = i;
                     newCell.PosY = y;
                     newCell.MonsterRate = 25;
@@ -118,28 +117,8 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 }
             }
 
-            List<Cell> cellList = new List<Cell>(map);
-
-            //List<Cell> cellList = new List<Cell>(map);
-            //List<Task> tasks = new List<Task>();
-            //cellList.ForEach(cell =>
-            //{
-            //    cell.PlayerId = player.Id;
-            //    tasks.Add(cellsAccessLayer.AddAsync(cell));
-            //});
-
-            // Task.WaitAll(tasks.ToArray());
-
             await cellsAccessLayer.AddManyAsync(map);
-
-            //cellList.ForEach(async cell =>
-            //{
-            //    cell.PlayerId = player.Id;
-            //    await cellsAccessLayer.AddAsync(cell);
-            //});
-
-
-            var insertedMap = cellsAccessLayer.GetCollection(c => c.PlayerId == player.Id);
+            var insertedMap = cellsAccessLayer.GetCollection(c => c.PlayerId == player.Id, true);
             return insertedMap.ToArray();
         }
 
@@ -150,23 +129,39 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Cell lastCell = map.Last();
             int widthMap = lastCell.PosX ; // Get width map
             int heightMap = lastCell.PosY; // Get height map
-
+            int randomPositionOnWidthAxis;
+            int randomPositionOnHeightAxis;
 
             Random random = new Random();
-            int randomPositionOnWidthAxis = random.Next(0, widthMap - 1);
-            int randomPositionOnHeightAxis = random.Next(0, heightMap - 1);
+            if (widthMap == 0)
+            {
+                randomPositionOnWidthAxis = random.Next(0, widthMap + 1);
+                
+            } else
+            {
+                randomPositionOnWidthAxis = random.Next(0, widthMap - 1);
+            }
+
+            if (heightMap == 0)
+            {
+                randomPositionOnHeightAxis = random.Next(0, heightMap + 1);
+            } else
+            {
+                randomPositionOnHeightAxis = random.Next(0, heightMap - 1);
+            }
 
             // Create a cell for the player to spawn
-            Cell newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
+            int index = map.ToList().FindIndex(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
 
             // Ensure that the cell is not a wall
-            newCellPlayer.Description = CellsEnum.SPAWN.ToString();
-            newCellPlayer.CanMoveTo = true;
+            map[index].Description = CellsEnum.SPAWN.ToString();
+            map[index].CanMoveTo = true;
+            map[index].PlayerPresence = true;
 
-            await cellsAccessLayer.UpdateAsync(newCellPlayer);
+            await cellsAccessLayer.UpdateAsync(map[index]);
+            var updatedPlayer = await GameInstance.GetPlayerInstance();
 
-            player.CurrentCellId = newCellPlayer.Id;
-            await playersAccessLayer.UpdateAsync(player);
+            //await playersAccessLayer.UpdateAsync(player);
         }
     }
 }
