@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TP_CS_ZORK.CONSOLE.utils;
-using TP_CS_ZORK.CONSOLE.commands;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
-using System.Collections;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
@@ -23,7 +19,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public new string Description => "Create new game";
 
-        private readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
         private readonly CellsAccessLayer cellsAccessLayer = CellsAccessLayer.GetInstance();
         private readonly WeaponsAccessLayer weaponsAccessLayer = WeaponsAccessLayer.GetInstance();
         private readonly WeaponsTypeAccessLayer weaponsTypeAccessLayer = WeaponsTypeAccessLayer.GetInstance();
@@ -160,8 +155,6 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
             await cellsAccessLayer.UpdateAsync(map[index]);
             var updatedPlayer = await GameInstance.GetPlayerInstance();
-
-            //await playersAccessLayer.UpdateAsync(player);
         }
     }
 }
