@@ -18,7 +18,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Player player = await GameInstance.GetPlayerInstance();
 
             // Check if next cell in not the border
-            Cell currentCell = (Cell)player.Cells.Where(c => c.PlayerPresence == true);
+            Cell currentCell = (Cell)player.Cells.Single(c => c.PlayerPresence == true);
             int newPosition = currentCell.PosX - 1;
             if (newPosition >= player.Cells.First().PosX)
             {
@@ -27,7 +27,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
                 if (nextCell.CanMoveTo == true)
                 {
 
-                    MovePlayer(nextCell);
+                    await MovePlayer(nextCell);
 
                     // Check if a monster spawn
                     Random random = new Random();

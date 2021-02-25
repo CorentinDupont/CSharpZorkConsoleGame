@@ -33,7 +33,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 {
                     Name = Console.ReadLine(),
                     MaxHp = 100,
-                    Hp = 1,
+                    Hp = 100,
                     Exp = 0
                 };
 
@@ -60,7 +60,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
 
         public static Cell GetNextCell(string direction)
         {
-            Cell currentCell = (Cell)_playerInstance.Cells.Where(c => c.PlayerPresence == true);
+            Cell currentCell = _playerInstance.Cells.Single(c => c.PlayerPresence == true);
             int futurePosition;
 
             switch (direction){
@@ -68,7 +68,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     futurePosition = currentCell.PosX + 1;
                     try
                     {
-                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosX == futurePosition && c.PosY == currentCell.PosY);
+                        currentCell = _playerInstance.Cells.Single(c => c.PosX == futurePosition && c.PosY == currentCell.PosY);
                     } catch (InvalidOperationException e)
                     {
                         Console.WriteLine("C'EST CASSE");
@@ -81,7 +81,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     futurePosition = currentCell.PosX - 1;
                     try
                     {
-                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosX == futurePosition && c.PosY == currentCell.PosY);
+                        currentCell = _playerInstance.Cells.Single(c => c.PosX == futurePosition && c.PosY == currentCell.PosY);
                     } catch (InvalidOperationException e)
                     {
                         Console.WriteLine("C'EST CASSE");
@@ -94,7 +94,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     futurePosition = currentCell.PosY + 1;
                     try
                     {
-                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosY == futurePosition && c.PosX == currentCell.PosX);
+                        currentCell = _playerInstance.Cells.Single(c => c.PosY == futurePosition && c.PosX == currentCell.PosX);
                     } catch (InvalidOperationException e)
                     {
                         Console.WriteLine("C'EST CASSE");
@@ -106,7 +106,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     futurePosition = currentCell.PosY - 1;
                     try
                     {
-                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosY == futurePosition && c.PosX == currentCell.PosX);
+                        currentCell = _playerInstance.Cells.Single(c => c.PosY == futurePosition && c.PosX == currentCell.PosX);
                     }
                      catch (InvalidOperationException e)
                     {
