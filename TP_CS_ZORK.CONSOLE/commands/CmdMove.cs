@@ -37,11 +37,20 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public async Task MenuMove()
         {
+            var previousMenu = new Menu(
+                CommandsEnum.CmdInventory.ToString(),
+                CommandsEnum.CmdStats.ToString(),
+                CommandsEnum.CmdMove.ToString(),
+                CommandsEnum.CmdExit.ToString()
+            );
+
             Menu menu = new Menu(
-                    new CmdMoveNorth(),
-                    new CmdMoveEst(),
-                    new CmdMoveSouth(),
-                    new CmdMoveWest());
+                new CmdMoveNorth(),
+                new CmdMoveEst(),
+                new CmdMoveSouth(),
+                new CmdMoveWest(),
+                new CmdGoBack(previousMenu)
+            );
 
             await menu.Activate();
         }
