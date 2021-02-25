@@ -50,7 +50,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
         // Pass by the GetPlayerInstance if want to create a new player.
         public static void SetPlayerInstance(int playerId)
         {
-            var player = playersAccessLayer.GetSingle(p => p.Id == playerId);
+            var player = playersAccessLayer.GetSingle(p => p.Id == playerId, true);
             _playerInstance = player;
         }
 

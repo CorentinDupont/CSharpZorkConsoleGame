@@ -8,7 +8,9 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 
         private static ObjectsAccessLayer instance = null;
 
-        private ObjectsAccessLayer(ZorkDbContext context) : base(context) { }
+        private ObjectsAccessLayer(ZorkDbContext context) : base(context) {
+            this.ReferenceNavigationProperties.Add("ObjectType");
+        }
 
         public static ObjectsAccessLayer GetInstance()
         {
