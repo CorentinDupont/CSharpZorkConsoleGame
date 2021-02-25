@@ -34,12 +34,12 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 };
 
                 await playersAccessLayer.AddAsync(player);
-                var insertedPlayer = playersAccessLayer.GetSingle(p => p.Name == player.Name, true);
+                var insertedPlayer = playersAccessLayer.GetSingleWithRelations(p => p.Name == player.Name, true);
                 _playerInstance = insertedPlayer;
                 //weapons.Add(new Punch());
             } else
             {
-                var player = playersAccessLayer.GetSingle(p => p.Id == _playerInstance.Id, true);
+                var player = playersAccessLayer.GetSingleWithRelations(p => p.Id == _playerInstance.Id, true);
                 _playerInstance = player;
             }
 
@@ -50,7 +50,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
         // Pass by the GetPlayerInstance if want to create a new player.
         public static void SetPlayerInstance(int playerId)
         {
-            var player = playersAccessLayer.GetSingle(p => p.Id == playerId, true);
+            var player = playersAccessLayer.GetSingleWithRelations(p => p.Id == playerId, true);
             _playerInstance = player;
         }
 

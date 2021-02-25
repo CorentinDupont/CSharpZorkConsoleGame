@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using TP_CS_ZORK.DATA_ACCESS_LAYER.Models;
 
 namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
@@ -27,6 +26,22 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
             }
 
             return instance;
+        }
+
+        public Player GetSingleWithRelations(Expression<Func<Player, bool>> filter, bool trackingEnabled = false)
+        {
+            var dbQuery = this.modelSet.AsQueryable();
+
+            var item = trackingEnabled
+                ? dbQuery
+                    .Include(p => p.CurrentCell)
+                    .Include(p => p.Cells)
+                    .Include(p => p.Weapons).ThenInclude(w => w.WeaponType)
+                    .Include(p => p.Objects).ThenInclude(o => o.ObjectType)
+                    .FirstOrDefault(filter)
+                : dbQuery.AsNoTracking().FirstOrDefault(filter);
+
+            return item;
         }
     }
 }
