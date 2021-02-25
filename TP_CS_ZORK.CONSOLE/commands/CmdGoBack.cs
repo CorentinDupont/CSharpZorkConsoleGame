@@ -8,7 +8,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
 {
     class CmdGoBack : ICommandAsync
     {
-        public string Description => "Retour";
+        public string Description => "Back to previous menu";
 
         private Menu PreviousMenu { get; set; }
 
