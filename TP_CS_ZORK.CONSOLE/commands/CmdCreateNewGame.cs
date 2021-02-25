@@ -85,7 +85,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             Cell[] map = new Cell[widthMap * heightMap];
 
             //int idNewCell = 0;
-            int rateCellIsWalkable = 0;
+            int rateCellIsWalkable = 20;
             int indexArray = 0;
             // fill each row
             for (int i = 0; i < widthMap; i++)
@@ -151,24 +151,15 @@ namespace TP_CS_ZORK.CONSOLE.commands
             }
 
             // Create a cell for the player to spawn
-            Cell newCellPlayer = new Cell();
-            try
-            {
-                newCellPlayer = map.Single(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("C'EST CASSE");
-            }
-            
+            int index = map.ToList().FindIndex(c => c.PosX == randomPositionOnWidthAxis && c.PosY == randomPositionOnHeightAxis);
 
             // Ensure that the cell is not a wall
-            newCellPlayer.Description = CellsEnum.SPAWN.ToString();
-            newCellPlayer.CanMoveTo = true;
+            map[index].Description = CellsEnum.SPAWN.ToString();
+            map[index].CanMoveTo = true;
+            map[index].PlayerPresence = true;
 
-            await cellsAccessLayer.UpdateAsync(newCellPlayer);
+            await cellsAccessLayer.UpdateAsync(map[index]);
 
-            player.CurrentCellId = newCellPlayer.Id;
             await playersAccessLayer.UpdateAsync(player);
         }
     }

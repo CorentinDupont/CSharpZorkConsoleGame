@@ -14,9 +14,9 @@ namespace TP_CS_ZORK.CONSOLE.commands
             await MenuMove();
         }
 
-        public void MovePlayer(Player player, Cell newCell)
+        public void MovePlayer(Cell newCell)
         {
-            player.CurrentCell = newCell;
+            newCell.PlayerPresence = true;
             Console.WriteLine($"newCellPlayer.posX:  {newCell.PosX}");
             Console.WriteLine($"newCellPlayer.posY:  {newCell.PosY}");
             Console.WriteLine($"You are on a :  {newCell.Description}");

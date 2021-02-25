@@ -18,6 +18,8 @@ namespace TP_CS_ZORK.CONSOLE.utils
         private static readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
         private static readonly WeaponsAccessLayer weaponsAccessLayer = WeaponsAccessLayer.GetInstance();
         private static readonly WeaponsTypeAccessLayer weaponsTypeAccessLayer = WeaponsTypeAccessLayer.GetInstance();
+        private static readonly CellsAccessLayer cellsAccessLayer = CellsAccessLayer.GetInstance();
+
 
         // Get a player instance. If none created yet, create one. Else, get the last player data from db, and return it.
         public static async Task<Player> GetPlayerInstance()
@@ -58,64 +60,59 @@ namespace TP_CS_ZORK.CONSOLE.utils
 
         public static Cell GetNextCell(string direction)
         {
-
-            
-            Cell[] map = _playerInstance.Cells.ToArray();
+            Cell currentCell = (Cell)_playerInstance.Cells.Where(c => c.PlayerPresence == true);
             int futurePosition;
 
             switch (direction){
                 case "est":
-                
-                    Cell cell0 = new Cell();
-                    futurePosition = _playerInstance.CurrentCell.PosX + 1;
+                    futurePosition = currentCell.PosX + 1;
                     try
                     {
-                        cell0 = map.Single(c => c.PosX == futurePosition && c.PosY == _playerInstance.CurrentCell.PosY);
+                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosX == futurePosition && c.PosY == currentCell.PosY);
                     } catch (InvalidOperationException e)
                     {
                         Console.WriteLine("C'EST CASSE");
                     }
 
-                    return cell0;
+                    return currentCell;
 
                 case "west":
 
-                    Cell cell1 = new Cell();
-                    futurePosition = _playerInstance.CurrentCell.PosX - 1;
+                    futurePosition = currentCell.PosX - 1;
                     try
                     {
-                        cell1 = map.Single(c => c.PosX == futurePosition && c.PosY == _playerInstance.CurrentCell.PosY);
+                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosX == futurePosition && c.PosY == currentCell.PosY);
                     } catch (InvalidOperationException e)
                     {
                         Console.WriteLine("C'EST CASSE");
                     }
-                    return cell1;
+                    return currentCell;
 
                 case "north":
 
                     Cell cell2 = new Cell();
-                    futurePosition = _playerInstance.CurrentCell.PosY + 1;
+                    futurePosition = currentCell.PosY + 1;
                     try
                     {
-                        cell2 = map.Single(c => c.PosY == futurePosition && c.PosX == _playerInstance.CurrentCell.PosX);
+                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosY == futurePosition && c.PosX == currentCell.PosX);
                     } catch (InvalidOperationException e)
                     {
                         Console.WriteLine("C'EST CASSE");
                     }
-                    return cell2;
+                    return currentCell;
 
                 case "south":
                     Cell cell3 = new Cell();
-                    futurePosition = _playerInstance.CurrentCell.PosY - 1;
+                    futurePosition = currentCell.PosY - 1;
                     try
                     {
-                        cell3 = map.Single(c => c.PosY == futurePosition && c.PosX == _playerInstance.CurrentCell.PosX);
+                        currentCell = (Cell)_playerInstance.Cells.Where(c => c.PosY == futurePosition && c.PosX == currentCell.PosX);
                     }
                      catch (InvalidOperationException e)
-                     {
+                    {
                         Console.WriteLine("C'EST CASSE");
                     }
-                    return cell3;
+                    return currentCell;
             }
 
             Console.WriteLine("ERROR : NO CELL FOUND");
@@ -173,9 +170,17 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 Console.ReadLine();
 
                 int weaponTypeToDelete = player.Weapons.First().WeaponTypeId;
+
                 await weaponsAccessLayer.RemoveAsync(player.Weapons.First().Id);
                 await weaponsTypeAccessLayer.RemoveAsync(weaponTypeToDelete);
                 await playersAccessLayer.RemoveAsync(player.Id);
+                
+                while (_playerInstance.Cells.Count != 0)
+                {
+                    cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
+                    _playerInstance.Cells.Remove(_playerInstance.Cells.First());
+                }
+                
                 _playerInstance = null;
 
                 var menu = new Menu(

@@ -114,7 +114,8 @@
         /// <returns>Returns number of state entries written to the database.</returns>
         public async Task<int> UpdateAsync(TModel model)
         {
-            AccessLayerHelper.DetachLocal(this.context, model, model.Id);
+            //AccessLayerHelper.DetachLocal(this.context, model, model.Id)
+            //context.Entry(model).State = EntityState.Detached;
             this.modelSet.Update(model);
             return await this.context.SaveChangesAsync().ConfigureAwait(false);
         }
