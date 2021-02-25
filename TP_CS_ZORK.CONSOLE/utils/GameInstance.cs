@@ -38,7 +38,6 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     index++;
                 }
 
-
                 bool alreadyExisting = true;
                 string name = null;
                 while (alreadyExisting)
@@ -61,8 +60,6 @@ namespace TP_CS_ZORK.CONSOLE.utils
                     Hp = 100,
                     Exp = 0
                 };
-
-
 
                 await playersAccessLayer.AddAsync(player);
                 var insertedPlayer = playersAccessLayer.GetSingleWithRelations(p => p.Name == player.Name, true);
@@ -153,7 +150,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 case "Vilain":
                     _fightingMonster.Name = "Vilain";
                     _fightingMonster.Hp = 100;
-                    _fightingMonster.Damage = 5;
+                    _fightingMonster.Damage = 10;
                     _fightingMonster.MissRate = 20;
                     break;
                 case "Grand mechant":
@@ -195,27 +192,29 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 player.Hp = 100;
                 Console.ReadLine();
 
-                int weaponTypeToDelete = player.Weapons.First().WeaponTypeId;
-
-                await weaponsAccessLayer.RemoveAsync(player.Weapons.First().Id);
-                await weaponsTypeAccessLayer.RemoveAsync(weaponTypeToDelete);
-                await playersAccessLayer.RemoveAsync(player.Id);
-                
-                while (_playerInstance.Cells.Count != 0)
-                {
-                    await cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
-                    _playerInstance.Cells.Remove(_playerInstance.Cells.First());
-                }
-                
-                _playerInstance = null;
-
                 var menu = new Menu(
                     CommandsEnum.CmdCreateNewGame.ToString(),
                     CommandsEnum.CmdLoadSavedGame.ToString(),
                     CommandsEnum.CmdAbout.ToString(),
                     CommandsEnum.CmdExit.ToString()
                 );
+                
                 await menu.Activate();
+
+                while (_playerInstance.Cells.Count != 0)
+                {
+                    await cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
+                    _playerInstance.Cells.Remove(_playerInstance.Cells.First());
+                }
+
+                int weaponTypeToDelete = player.Weapons.First().WeaponTypeId;
+
+                await weaponsAccessLayer.RemoveAsync(player.Weapons.First().Id);
+                await weaponsTypeAccessLayer.RemoveAsync(weaponTypeToDelete);
+                await playersAccessLayer.RemoveAsync(player.Id);
+
+                _playerInstance = null;
+
             }
 
         }
