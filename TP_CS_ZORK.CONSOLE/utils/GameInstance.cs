@@ -67,7 +67,6 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 await playersAccessLayer.AddAsync(player);
                 var insertedPlayer = playersAccessLayer.GetSingleWithRelations(p => p.Name == player.Name, true);
                 _playerInstance = insertedPlayer;
-                //weapons.Add(new Punch());
             } else
             {
                 var player = playersAccessLayer.GetSingleWithRelations(p => p.Id == _playerInstance.Id, true);
@@ -204,7 +203,7 @@ namespace TP_CS_ZORK.CONSOLE.utils
                 
                 while (_playerInstance.Cells.Count != 0)
                 {
-                    cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
+                    await cellsAccessLayer.RemoveAsync(_playerInstance.Cells.Last().Id);
                     _playerInstance.Cells.Remove(_playerInstance.Cells.First());
                 }
                 
