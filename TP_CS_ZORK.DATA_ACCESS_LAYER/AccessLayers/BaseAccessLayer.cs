@@ -109,13 +109,12 @@
 
         /// <summary>
         ///     Async method that update a specific data object.
+        ///     The entity to update should be tracked ! (context.Entity(model).State should be "Modified" and not "Detached"
         /// </summary>
         /// <param name="model">The object data model to update.</param>
         /// <returns>Returns number of state entries written to the database.</returns>
         public async Task<int> UpdateAsync(TModel model)
         {
-            //AccessLayerHelper.DetachLocal(this.context, model, model.Id)
-            //context.Entry(model).State = EntityState.Detached;
             this.modelSet.Update(model);
             return await this.context.SaveChangesAsync().ConfigureAwait(false);
         }

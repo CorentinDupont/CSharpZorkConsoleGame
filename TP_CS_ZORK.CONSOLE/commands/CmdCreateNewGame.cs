@@ -118,7 +118,7 @@ namespace TP_CS_ZORK.CONSOLE.commands
             }
 
             await cellsAccessLayer.AddManyAsync(map);
-            var insertedMap = cellsAccessLayer.GetCollection(c => c.PlayerId == player.Id);
+            var insertedMap = cellsAccessLayer.GetCollection(c => c.PlayerId == player.Id, true);
             return insertedMap.ToArray();
         }
 
@@ -159,8 +159,9 @@ namespace TP_CS_ZORK.CONSOLE.commands
             map[index].PlayerPresence = true;
 
             await cellsAccessLayer.UpdateAsync(map[index]);
+            var updatedPlayer = await GameInstance.GetPlayerInstance();
 
-            await playersAccessLayer.UpdateAsync(player);
+            //await playersAccessLayer.UpdateAsync(player);
         }
     }
 }
