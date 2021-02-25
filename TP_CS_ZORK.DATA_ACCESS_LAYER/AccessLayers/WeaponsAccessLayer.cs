@@ -12,7 +12,9 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 
         private static WeaponsAccessLayer instance = null;
 
-        private WeaponsAccessLayer(ZorkDbContext context) : base(context) { }
+        private WeaponsAccessLayer(ZorkDbContext context) : base(context) {
+            this.ReferenceNavigationProperties.Add("WeaponType");
+        }
 
         public static WeaponsAccessLayer GetInstance()
         {

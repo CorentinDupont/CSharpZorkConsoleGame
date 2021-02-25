@@ -12,7 +12,11 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 
         private static PlayersAccessLayer instance = null;
 
-        private PlayersAccessLayer(ZorkDbContext context) : base(context) { }
+        private PlayersAccessLayer(ZorkDbContext context) : base(context) {
+            this.ReferenceNavigationProperties.Add("CurrentCell");
+            this.CollectionNavigationProperties.Add("Cells");
+            this.CollectionNavigationProperties.Add("Weapons");
+        }
 
         public static PlayersAccessLayer GetInstance()
         {
