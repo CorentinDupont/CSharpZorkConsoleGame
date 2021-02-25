@@ -14,7 +14,21 @@ namespace TP_CS_ZORK.CONSOLE.commands
 
         public void Execute(int number)
         {
-           
+            var monster = GameInstance.GetFightingMonster();
+
+            Random random = new Random();
+            var escapeChance = random.Next(0, 100);
+            var escapeRate = monster.MissRate * 2;
+
+            if (escapeChance < escapeRate)
+            {
+                Console.WriteLine("You managed to escape the monster!");
+
+                GameInstance.isPlayerFighting = false;
+            } else
+            {
+                Console.WriteLine("You failed to escape the monster ...");
+            }
         }
     }
 }
