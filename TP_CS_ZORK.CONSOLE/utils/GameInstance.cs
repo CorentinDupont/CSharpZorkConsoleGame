@@ -15,6 +15,8 @@ namespace TP_CS_ZORK.CONSOLE.utils
         private static Monster _fightingMonster;
         private static Player _playerInstance;
 
+        public static bool isPlayerFighting = false;
+
         private static readonly PlayersAccessLayer playersAccessLayer = PlayersAccessLayer.GetInstance();
         private static readonly WeaponsAccessLayer weaponsAccessLayer = WeaponsAccessLayer.GetInstance();
         private static readonly WeaponsTypeAccessLayer weaponsTypeAccessLayer = WeaponsTypeAccessLayer.GetInstance();
@@ -168,8 +170,9 @@ namespace TP_CS_ZORK.CONSOLE.utils
         {
 
             monsterTurn(monster, player);
+            isPlayerFighting = true;
             // Fight until death
-            while (player.Hp > 0 && monster.Hp > 0)
+            while (player.Hp > 0 && monster.Hp > 0 && isPlayerFighting)
             {
                 Menu menu = new Menu(
                 CommandsEnum.CmdHit.ToString(),

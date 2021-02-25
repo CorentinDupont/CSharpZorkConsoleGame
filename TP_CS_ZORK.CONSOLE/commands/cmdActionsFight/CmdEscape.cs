@@ -8,41 +8,26 @@ using TP_CS_ZORK.CONSOLE.utils;
 
 namespace TP_CS_ZORK.CONSOLE.commands
 {
-    class CmdEscape : ICommandAsync
+    class CmdEscape : ICommand
     {
         public new string Description => "Escape";
 
-        public async Task ExecuteAsync(int number)
+        public void Execute(int number)
         {
-            var player = await GameInstance.GetPlayerInstance();
-            var currentCell = player.Cells.Single(c => c.PlayerPresence == true);
             var monster = GameInstance.GetFightingMonster();
+
             Random random = new Random();
             var escapeChance = random.Next(0, 100);
+            var escapeRate = monster.MissRate * 2;
 
-            if (escapeChance < monster.MissRate)
+            if (escapeChance < escapeRate)
             {
                 Console.WriteLine("You managed to escape the monster!");
 
-                var previousMenu = new Menu(
-                    CommandsEnum.CmdInventory.ToString(),
-                    CommandsEnum.CmdStats.ToString(),
-                    CommandsEnum.CmdMove.ToString(),
-                    CommandsEnum.CmdExit.ToString()
-                );
-
-                Menu menu = new Menu(
-                    new CmdMoveNorth(),
-                    new CmdMoveEst(),
-                    new CmdMoveSouth(),
-                    new CmdMoveWest(),
-                    new CmdGoBack(previousMenu)
-                );
-
-                await menu.Activate();
+                GameInstance.isPlayerFighting = false;
             } else
             {
-                GameInstance.Fight(monster, player);
+                Console.WriteLine("You failed to escape the monster ...");
             }
         }
     }
