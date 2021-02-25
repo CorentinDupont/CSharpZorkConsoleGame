@@ -111,32 +111,11 @@
             foreach (string fk in this.CollectionNavigationProperties)
             {
                 context.Entry(item).Collection(fk).Load();
-               
-
-                //    string fkTypeString = $"TP_CS_ZORK.DATA_ACCESS_LAYER.Models.{fk.Remove(fk.Length - 1)}, TP_CS_ZORK.DATA_ACCESS_LAYER";
-                //    var fkType = Type.GetType(fkTypeString);
-
-                //    var fkObjectCollection = (ICollection<fkType.GetGenericTypeDefinition()>) Utils.GetPropValue(item, fk);
-                //    string objectToInstantiate = $"TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers.{fk}AccessLayer, TP_CS_ZORK.DATA_ACCESS_LAYER";
-                //    var objectType = Type.GetType(objectToInstantiate);
-                //    var foreignAccessLayer = (BaseAccessLayer<TModel>) objectType.GetMethod("GetInstance").Invoke(null, null);
-
-                //    var i = 0;
-                //    foreach (fkType fkObject in fkObjectCollection)
-                //    {
-                //        foreach(string fktemp in foreignAccessLayer.ReferenceNavigationProperties)
-                //        {
-                //            context.Entry(fkObject).Collection(fktemp).Load();
-                //        }
-                //    }
-                //    i++;
-
             }
 
             foreach (string fk in this.ReferenceNavigationProperties)
             {
                 context.Entry(item).Reference(fk).Load();
-
             }
 
             return item;
