@@ -12,7 +12,7 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.AccessLayers
 
         private static CellsAccessLayer instance = null;
 
-        private CellsAccessLayer(ZorkDbContext context) : base(context) { }
+        private CellsAccessLayer(ZorkDbContext context) : base(context) {}
 
         public static CellsAccessLayer GetInstance()
         {

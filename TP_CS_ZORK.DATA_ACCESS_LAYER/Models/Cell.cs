@@ -18,6 +18,8 @@ namespace TP_CS_ZORK.DATA_ACCESS_LAYER.Models
         public int MonsterRate { get; set; }
         public int ItemRate { get; set; }
         public string Description { get; set; }
+
+        public bool? PlayerPresence { get; set; }
         public int? PlayerId { get; set; }
 
         public virtual Player Player { get; set; }
